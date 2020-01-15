@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Note {
+    public static int last_id;
+    int id;
     String content;
     List<Tag> tags;
 
     public Note(String content, List<Tag> tagDatabase) { //TODO TMP
+        this.id = last_id;
+        last_id++;
         this.content = content;
         this.tags = new ArrayList<>();
         String[] tmp = content.split(" ");
@@ -53,6 +57,14 @@ public class Note {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

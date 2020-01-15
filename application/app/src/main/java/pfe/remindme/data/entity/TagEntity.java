@@ -1,15 +1,32 @@
 package pfe.remindme.data.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import java.util.List;
+
+import pfe.remindme.data.DataConverter;
 
 @Entity
 public class TagEntity {
     @NonNull
     @PrimaryKey
     String tagName;
-    String linkedNotes;
+
+    @TypeConverters(DataConverter.class) // add here
+    @ColumnInfo(name = "linkedNotesIdList")
+    List<Integer> linkedNotesIdList;
+
+    public List<Integer> getLinkedNotesIdList() {
+        return linkedNotesIdList;
+    }
+
+    public void setLinkedNotesIdList(List<Integer> linkedNotesIdList) {
+        this.linkedNotesIdList = linkedNotesIdList;
+    }
 
     @NonNull
     public String getTagName() {
@@ -18,13 +35,5 @@ public class TagEntity {
 
     public void setTagName(@NonNull String tagName) {
         this.tagName = tagName;
-    }
-
-    public String getLinkedNotes() {
-        return linkedNotes;
-    }
-
-    public void setLinkedNotes(String linkedNotes) {
-        this.linkedNotes = linkedNotes;
     }
 }

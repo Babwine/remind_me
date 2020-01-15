@@ -18,6 +18,8 @@ public class NotePresenter implements NoteContract.Presenter {
         this.pokemonDisplayRepository = repo;
     }
 
+    //TODO : addNote qui utilise repo.addNote et updateTag
+
     @Override
     public void attachView(NoteContract.View view) {
         this.view = view;

@@ -64,11 +64,11 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
 
     @Override
     public Completable addNote(Note note) {
-        noteDisplayLocalDataSource.addNote(noteToNoteEntityMapper.map(note));
+        return noteDisplayLocalDataSource.addNote(noteToNoteEntityMapper.map(note));
     }
 
     @Override
     public Completable removeNote(int noteId) {
-        noteDisplayLocalDataSource.removeNote(noteId);
+        return noteDisplayLocalDataSource.removeNote(noteId);
     }
 }

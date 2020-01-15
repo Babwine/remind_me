@@ -22,7 +22,7 @@ public interface TagDao {
     Completable updateTag(TagEntity tagEntity);
 
     @Query("SELECT * from tagentity")
-    List<TagEntity> getAllTags();
+    Flowable<List<TagEntity>> getAllTags();
 
     @Query("SELECT linkedNotesIdList from tagentity WHERE tagName = :tagName")
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);

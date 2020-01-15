@@ -13,7 +13,7 @@ import pfe.remindme.data.DataConverter;
 @Entity
 public class NoteEntity {
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public String content;
     @TypeConverters(DataConverter.class)

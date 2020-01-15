@@ -3,13 +3,17 @@ package pfe.remindme.data.repository.notedisplay;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
 import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.entity.TagEntity;
 import pfe.remindme.data.repository.notedisplay.local.NoteDisplayLocalDataSource;
+import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
+import pfe.remindme.data.repository.notedisplay.mapper.TagEntityToTagMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.TagToTagEntityMapper;
 import pfe.remindme.data.repository.notedisplay.remote.NoteDisplayRemoteDataSource;
 
@@ -18,33 +22,60 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     private NoteDisplayRemoteDataSource noteDisplayRemoteDataSource;
     private NoteToNoteEntityMapper noteToNoteEntityMapper;
     private TagToTagEntityMapper tagToTagEntityMapper;
+    private NoteEntityToNoteMapper noteEntityToNoteMapper;
+    private TagEntityToTagMapper tagEntityToTagMapper;
 
     public NoteDisplayDataRepository(
         NoteDisplayLocalDataSource noteDisplayLocalDataSource,
         NoteDisplayRemoteDataSource noteDisplayRemoteDataSource,
         NoteToNoteEntityMapper noteToNoteEntityMapper,
-        TagToTagEntityMapper tagToTagEntityMapper
+        TagToTagEntityMapper tagToTagEntityMapper,
+        NoteEntityToNoteMapper noteEntityToNoteMapper,
+        TagEntityToTagMapper tagEntityToTagMapper
     )
     {
         this.noteDisplayLocalDataSource = noteDisplayLocalDataSource;
         this.noteDisplayRemoteDataSource = noteDisplayRemoteDataSource;
         this.noteToNoteEntityMapper = noteToNoteEntityMapper;
         this.tagToTagEntityMapper = tagToTagEntityMapper;
+        this.noteEntityToNoteMapper = noteEntityToNoteMapper;
+        this.tagEntityToTagMapper = tagEntityToTagMapper;
     }
 
     @Override
-    public Single<NoteEntity> getNoteById(int noteId) {
-        return noteDisplayLocalDataSource.loadNote(noteId);
+    public Single<Note> getNoteById(int noteId) {
+        return noteDisplayLocalDataSource.loadNote(noteId).map(
+                new Function<NoteEntity, Note>() {
+                    @Override
+                    public Note apply(NoteEntity noteEntity) throws Exception {
+                        return noteEntityToNoteMapper.map(noteEntity);
+                    }
+                }
+        );
     }
 
     @Override
-    public Single<TagEntity> getTagByTagName(String tagName) {
-        return noteDisplayLocalDataSource.loadTag(tagName);
+    public Single<Tag> getTagByTagName(String tagName) {
+        return noteDisplayLocalDataSource.loadTag(tagName).map(
+                new Function<TagEntity, Tag>() {
+                    @Override
+                    public Tag apply(TagEntity tagEntity) throws Exception {
+                        return tagEntityToTagMapper.map(tagEntity);
+                    }
+                }
+        );
     }
 
     @Override
-    public List<TagEntity> getTagDatabase() {
-        return noteDisplayLocalDataSource.getAllTags();
+    public Flowable<List<Tag>> getTagDatabase() {
+        return noteDisplayLocalDataSource.getAllTags().map(
+                new Function<List<TagEntity>, List<Tag>>() {
+                    @Override
+                    public List<Tag> apply(List<TagEntity> tagEntityList) throws Exception {
+                        return tagEntityToTagMapper.map(tagEntityList);
+                    }
+                }
+        );
     }
 
 
@@ -60,13 +91,8 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
 
 
     @Override
-    public Completable addNote(Note note) {
-        for (Tag tag : note.getTags()) {
-            if (!updateTag(tag).equals(Completable.complete())) {
-                return updateTag(tag);
-            }
-        }
-        return noteDisplayLocalDataSource.addNote(noteToNoteEntityMapper.map(note));
+    public Completable addNote(NoteEntity noteEntity) {
+        return noteDisplayLocalDataSource.addNote(noteEntity);
     }
 
     @Override

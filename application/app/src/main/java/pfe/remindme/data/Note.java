@@ -3,25 +3,14 @@ package pfe.remindme.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
+
 public class Note {
-    public static int last_id;
     int id;
     String content;
     List<String> tags;
 
-    public Note(String content, List<Tag> tagDatabase) { //TODO TMP
-        this.id = last_id;
-        last_id++;
-        this.content = content;
-        this.tags = new ArrayList<>();
-        String[] tmp = content.split(" ");
-        for (String word : tmp) {
-            tags.add(word);
-        }
-        updateTags(tagDatabase);
-    }
-
-    public Note(int id, String content) { //TODO TMP
+    public Note(int id, String content) {
         this.id = id;
         this.content = content;
         this.tags = new ArrayList<>();
@@ -31,27 +20,6 @@ public class Note {
         }
     }
 
-
-    private void updateTags(List<Tag> tagDatabase) {
-        for (String tag : tags) {
-            Tag t = new Tag(tag);
-            t.addNote(this.getId());
-            if (tagDatabase.contains(t)) {
-                for (Tag tInDB : tagDatabase) {
-                    if (t.equals(tInDB)) {
-                        tInDB.addNote(this.getId());
-                        for (int n : tInDB.getLinkedNotes()) {
-                            if (n != this.getId()) {
-                                t.addNote(n);
-                            }
-                        }
-                    }
-                }
-            } else {
-                tagDatabase.add(t);
-            }
-        }
-    }
 
 
     public String getContent() {

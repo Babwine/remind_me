@@ -11,17 +11,17 @@ import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.entity.TagEntity;
 
 public interface NoteDisplayRepository {
-    Single<NoteEntity> getNoteById(int noteId);
+    Single<Note> getNoteById(int noteId);
 
-    Single<TagEntity> getTagByTagName(String tagName);
+    Single<Tag> getTagByTagName(String tagName);
 
-    List<TagEntity> getTagDatabase();
+    Flowable<List<Tag>> getTagDatabase();
 
     Single<String> getTagsFromNoteAsJson(int noteId);
 
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
-    Completable addNote(Note note);
+    Completable addNote(NoteEntity noteEntity);
 
     Completable updateTag(Tag tag);
 

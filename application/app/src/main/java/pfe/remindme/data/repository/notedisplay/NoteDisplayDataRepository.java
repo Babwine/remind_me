@@ -21,21 +21,18 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     private NoteDisplayRemoteDataSource noteDisplayRemoteDataSource;
     private NoteToNoteEntityMapper noteToNoteEntityMapper;
     private TagToTagEntityMapper tagToTagEntityMapper;
-    private NoteEntityToNoteMapper noteEntityToNoteMapper;
 
     public NoteDisplayDataRepository(
         NoteDisplayLocalDataSource noteDisplayLocalDataSource,
         NoteDisplayRemoteDataSource noteDisplayRemoteDataSource,
         NoteToNoteEntityMapper noteToNoteEntityMapper,
-        TagToTagEntityMapper tagToTagEntityMapper,
-        NoteEntityToNoteMapper noteEntityToNoteMapper
+        TagToTagEntityMapper tagToTagEntityMapper
     )
     {
         this.noteDisplayLocalDataSource = noteDisplayLocalDataSource;
         this.noteDisplayRemoteDataSource = noteDisplayRemoteDataSource;
         this.noteToNoteEntityMapper = noteToNoteEntityMapper;
         this.tagToTagEntityMapper = tagToTagEntityMapper;
-        this.noteEntityToNoteMapper = noteEntityToNoteMapper;
     }
 
     @Override
@@ -67,11 +64,11 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
 
     @Override
     public Completable addNote(Note note) {
-        return null;
+        noteDisplayLocalDataSource.addNote(noteToNoteEntityMapper.map(note));
     }
 
     @Override
-    public Completable removeNote(int noteid) {
-        return null;
+    public Completable removeNote(int noteId) {
+        noteDisplayLocalDataSource.removeNote(noteId);
     }
 }

@@ -14,11 +14,7 @@ public class NoteToNoteEntityMapper {
         noteEntity.setId(note.getId());
         noteEntity.setContent(note.getContent());
 
-        List<String> tagList = new ArrayList<>();
-        for (Tag tag : note.getTags()) {
-            tagList.add(tag.getTagName())
-;        }
-        noteEntity.setTagList(tagList);
+        noteEntity.setTagList(note.getTags());
 
         return noteEntity;
     }

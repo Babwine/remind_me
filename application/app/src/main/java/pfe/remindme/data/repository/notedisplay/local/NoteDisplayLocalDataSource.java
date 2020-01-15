@@ -1,5 +1,7 @@
 package pfe.remindme.data.repository.notedisplay.local;
 
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import pfe.remindme.data.db.NoteDatabase;
@@ -36,7 +38,7 @@ public class NoteDisplayLocalDataSource {
         return tagDatabase.tagDao().updateTag(tagEntity);
     }
 
-    public Single<String> getAllTagsAsJson() {
+    public List<TagEntity> getAllTags() {
         return tagDatabase.tagDao().getAllTags();
     }
 

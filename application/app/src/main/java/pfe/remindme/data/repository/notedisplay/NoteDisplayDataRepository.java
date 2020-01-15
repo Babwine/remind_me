@@ -1,5 +1,7 @@
 package pfe.remindme.data.repository.notedisplay;
 
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import pfe.remindme.data.Note;
@@ -41,8 +43,8 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     }
 
     @Override
-    public Single<String> getTagDatabaseAsJson() {
-        return noteDisplayLocalDataSource.getAllTagsAsJson();
+    public List<TagEntity> getTagDatabase() {
+        return noteDisplayLocalDataSource.getAllTags();
     }
 
 

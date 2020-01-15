@@ -7,7 +7,7 @@ public class Note {
     public static int last_id;
     int id;
     String content;
-    List<Tag> tags;
+    List<String> tags;
 
     public Note(String content, List<Tag> tagDatabase) { //TODO TMP
         this.id = last_id;
@@ -16,7 +16,7 @@ public class Note {
         this.tags = new ArrayList<>();
         String[] tmp = content.split(" ");
         for (String word : tmp) {
-            tags.add(new Tag(word));
+            tags.add(word);
         }
         updateTags(tagDatabase);
     }
@@ -27,20 +27,21 @@ public class Note {
         this.tags = new ArrayList<>();
         String[] tmp = content.split(" ");
         for (String word : tmp) {
-            tags.add(new Tag(word));
+            tags.add(word);
         }
     }
 
 
     private void updateTags(List<Tag> tagDatabase) {
-        for (Tag t : tags) {
-            t.addNote(this);
+        for (String tag : tags) {
+            Tag t = new Tag(tag);
+            t.addNote(this.getId());
             if (tagDatabase.contains(t)) {
                 for (Tag tInDB : tagDatabase) {
                     if (t.equals(tInDB)) {
-                        tInDB.addNote(this);
-                        for (Note n : tInDB.getLinkedNotes()) {
-                            if (!n.equals(this)) {
+                        tInDB.addNote(this.getId());
+                        for (int n : tInDB.getLinkedNotes()) {
+                            if (n != this.getId()) {
                                 t.addNote(n);
                             }
                         }
@@ -61,11 +62,11 @@ public class Note {
         this.content = content;
     }
 
-    public List<Tag> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 

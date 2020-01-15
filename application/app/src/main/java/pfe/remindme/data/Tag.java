@@ -5,14 +5,19 @@ import java.util.List;
 
 public class Tag {
     private String tagName;
-    private List<Note> linkedNotes;
+    private List<Integer> linkedNotes;
 
     public Tag(String tagName) {
         this.tagName = tagName;
         this.linkedNotes = new ArrayList<>();
     }
 
-    public void addNote(Note n) {
+    public Tag(String tagName, List<Integer> linkedNotes) {
+        this.tagName = tagName;
+        this.linkedNotes = linkedNotes;
+    }
+
+    public void addNote(int n) {
         linkedNotes.add(n);
     }
 
@@ -24,11 +29,11 @@ public class Tag {
         this.tagName = tagName;
     }
 
-    public List<Note> getLinkedNotes() {
+    public List<Integer> getLinkedNotes() {
         return linkedNotes;
     }
 
-    public void setLinkedNotes(List<Note> linkedNotes) {
+    public void setLinkedNotes(List<Integer> linkedNotes) {
         this.linkedNotes = linkedNotes;
     }
 

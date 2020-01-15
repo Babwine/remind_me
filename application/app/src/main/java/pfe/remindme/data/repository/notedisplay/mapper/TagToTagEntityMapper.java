@@ -12,11 +12,7 @@ public class TagToTagEntityMapper {
         TagEntity tagEntity = new TagEntity();
         tagEntity.setTagName(tag.getTagName());
 
-        List<Integer> linkedNotesIdList = new ArrayList<>();
-        for (Note note : tag.getLinkedNotes()) {
-            linkedNotesIdList.add(note.getId());
-        }
-        tagEntity.setLinkedNotesIdList(linkedNotesIdList);
+        tagEntity.setLinkedNotesIdList(tag.getLinkedNotes());
 
         return tagEntity;
     }

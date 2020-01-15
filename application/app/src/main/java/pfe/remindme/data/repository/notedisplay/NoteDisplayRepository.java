@@ -15,7 +15,7 @@ public interface NoteDisplayRepository {
 
     Single<TagEntity> getTagByTagName(String tagName);
 
-    Single<String> getTagDatabaseAsJson();
+    List<TagEntity> getTagDatabase();
 
     Single<String> getTagsFromNoteAsJson(int noteId);
 

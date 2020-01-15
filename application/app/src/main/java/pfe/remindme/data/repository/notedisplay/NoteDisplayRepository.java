@@ -23,5 +23,7 @@ public interface NoteDisplayRepository {
 
     Completable addNote(Note note);
 
+    Completable updateTag(Tag tag);
+
     Completable removeNote(int noteid);
 }

@@ -1,7 +1,6 @@
 package pfe.remindme.data.repository.notedisplay.local;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 import pfe.remindme.data.db.NoteDatabase;
 import pfe.remindme.data.db.TagDatabase;
@@ -33,8 +32,8 @@ public class NoteDisplayLocalDataSource {
         return tagDatabase.tagDao().loadTag(tagName);
     }
 
-    public Completable addTag(TagEntity tagEntity) {
-        return tagDatabase.tagDao().addTag(tagEntity);
+    public Completable updateTag(TagEntity tagEntity) {
+        return tagDatabase.tagDao().updateTag(tagEntity);
     }
 
     public Single<String> getAllTagsAsJson() {

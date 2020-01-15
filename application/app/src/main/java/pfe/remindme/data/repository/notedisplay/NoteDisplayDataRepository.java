@@ -1,17 +1,12 @@
 package pfe.remindme.data.repository.notedisplay;
 
-import java.util.List;
-
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Single;
-import pfe.remindme.data.DataConverter;
 import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
 import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.entity.TagEntity;
 import pfe.remindme.data.repository.notedisplay.local.NoteDisplayLocalDataSource;
-import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.TagToTagEntityMapper;
 import pfe.remindme.data.repository.notedisplay.remote.NoteDisplayRemoteDataSource;
@@ -64,7 +59,17 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
 
     @Override
     public Completable addNote(Note note) {
+        for (Tag tag : note.getTags()) {
+            if (!updateTag(tag).equals(Completable.complete())) {
+                return updateTag(tag);
+            }
+        }
         return noteDisplayLocalDataSource.addNote(noteToNoteEntityMapper.map(note));
+    }
+
+    @Override
+    public Completable updateTag(Tag tag) {
+        return noteDisplayLocalDataSource.updateTag(tagToTagEntityMapper.map(tag));
     }
 
     @Override

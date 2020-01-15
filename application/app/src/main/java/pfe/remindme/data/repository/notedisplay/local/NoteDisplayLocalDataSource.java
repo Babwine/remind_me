@@ -41,5 +41,13 @@ public class NoteDisplayLocalDataSource {
         return tagDatabase.tagDao().getAllTags();
     }
 
+    public Single<String> getTagsFromNoteAsJson(int id) {
+        return noteDatabase.noteDao().getTagsFromNoteAsJson(id);
+    }
+
+    public Single<String> getLinkedNotesIdFromTagAsJson(String tagName) {
+        return tagDatabase.tagDao().getLinkedNotesIdFromTagAsJson(tagName);
+    }
+
 
 }

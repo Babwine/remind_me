@@ -53,18 +53,17 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
         return noteDisplayLocalDataSource.getAllTagsAsJson();
     }
 
-    // TODO : CHANGER LA DATABASE POUR RECUP CEUX LA
+
     @Override
-    public Flowable<List<TagEntity>> getTagsFromNote(int noteId) {
-        return null;
+    public Single<String> getTagsFromNoteAsJson(int noteId) {
+        return noteDisplayLocalDataSource.getTagsFromNoteAsJson(noteId);
     }
 
     @Override
-    public Flowable<List<NoteEntity>> getLinkedNotesFromTag(String tagName) {
-        return null;
+    public Single<String> getLinkedNotesIdFromTagAsJson(String tagName) {
+        return noteDisplayLocalDataSource.getLinkedNotesIdFromTagAsJson(tagName);
     }
 
-     ///////////////////////////////////
 
     @Override
     public Completable addNote(Note note) {

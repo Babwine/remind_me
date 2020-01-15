@@ -18,4 +18,7 @@ public interface NoteDao {
 
     @Query("DELETE FROM noteentity WHERE id = :id")
     Completable deleteNote(int id);
+
+    @Query("SELECT tagList from noteentity WHERE id = :id")
+    Single<String> getTagsFromNoteAsJson(int id);
 }

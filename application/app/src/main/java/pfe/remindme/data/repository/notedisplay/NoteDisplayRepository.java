@@ -17,9 +17,9 @@ public interface NoteDisplayRepository {
 
     Single<String> getTagDatabaseAsJson();
 
-    Flowable<List<TagEntity>> getTagsFromNote(int noteId);
+    Single<String> getTagsFromNoteAsJson(int noteId);
 
-    Flowable<List<NoteEntity>> getLinkedNotesFromTag(String tagName);
+    Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
     Completable addNote(Note note);
 

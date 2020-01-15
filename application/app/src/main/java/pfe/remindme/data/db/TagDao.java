@@ -17,8 +17,10 @@ public interface TagDao {
     @Insert
     Completable addTag(TagEntity tagEntity);
 
-    @Query("SELECT * from  WHERE tagname IN (SELECT * from)")
+    @Query("SELECT * from tagentity")
     Single<String> getAllTags();
 
+    @Query("SELECT linkedNotesIdList from tagentity WHERE tagName = :tagName")
+    Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
 }

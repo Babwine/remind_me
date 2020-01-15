@@ -33,4 +33,26 @@ public class DataConverter {
         List<Integer> noteIdList = gson.fromJson(noteIdString, type);
         return noteIdList;
     }
+
+    @TypeConverter
+    public String fromTagNameList(List<String> tagNameList) {
+        if (tagNameList == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<String>>() {}.getType();
+        String json = gson.toJson(tagNameList, type);
+        return json;
+    }
+
+    @TypeConverter
+    public List<String> toTagNameList(String tagNameString) {
+        if (tagNameString == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<String>>() {}.getType();
+        List<String> tagNameList = gson.fromJson(tagNameString, type);
+        return tagNameList;
+    }
 }

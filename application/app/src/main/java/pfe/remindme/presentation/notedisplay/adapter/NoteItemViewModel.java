@@ -3,6 +3,7 @@ package pfe.remindme.presentation.notedisplay.adapter;
 public class NoteItemViewModel {
     private String noteContent;
     private String noteTags;
+    private int id;
 
 
 
@@ -22,7 +23,11 @@ public class NoteItemViewModel {
         this.noteTags = noteTags;
     }
 
+    public int getId() {
+        return id;
+    }
 
-
-
+    public void setId(int id) {
+        this.id = id;
+    }
 }

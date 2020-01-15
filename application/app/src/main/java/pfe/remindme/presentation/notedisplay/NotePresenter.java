@@ -2,10 +2,8 @@ package pfe.remindme.presentation.notedisplay;
 
 import java.util.List;
 
-import pfe.remindme.NotesDisplayActivity;
 import pfe.remindme.data.Note;
-import pfe.remindme.data.repository.NoteDisplayRepository;
-import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
+import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
 import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
 

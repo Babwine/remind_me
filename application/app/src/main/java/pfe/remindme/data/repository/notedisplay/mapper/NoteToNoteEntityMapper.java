@@ -1,4 +1,8 @@
-package pfe.remindme.data.repository.mapper;
+package pfe.remindme.data.repository.notedisplay.mapper;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
@@ -10,12 +14,11 @@ public class NoteToNoteEntityMapper {
         noteEntity.setId(note.getId());
         noteEntity.setContent(note.getContent());
 
-        String tagString = "";
+        List<String> tagList = new ArrayList<>();
         for (Tag tag : note.getTags()) {
-            tagString += tag.getTagName() + "|";
-        }
-        tagString = tagString.substring(0, tagString.length()-1);
-        noteEntity.setTags(tagString);
+            tagList.add(tag.getTagName())
+;        }
+        noteEntity.setTagList(tagList);
 
         return noteEntity;
     }

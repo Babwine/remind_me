@@ -1,4 +1,4 @@
-package pfe.remindme.data.repository.mapper;
+package pfe.remindme.data.repository.notedisplay.mapper;
 
 import java.util.ArrayList;
 import java.util.List;

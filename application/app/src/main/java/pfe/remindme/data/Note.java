@@ -21,6 +21,16 @@ public class Note {
         updateTags(tagDatabase);
     }
 
+    public Note(int id, String content) { //TODO TMP
+        this.id = id;
+        this.content = content;
+        this.tags = new ArrayList<>();
+        String[] tmp = content.split(" ");
+        for (String word : tmp) {
+            tags.add(new Tag(word));
+        }
+    }
+
 
     private void updateTags(List<Tag> tagDatabase) {
         for (Tag t : tags) {

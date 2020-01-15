@@ -1,8 +1,14 @@
 package pfe.remindme.data.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import java.util.List;
+
+import pfe.remindme.data.DataConverter;
 
 @Entity
 public class NoteEntity {
@@ -10,7 +16,9 @@ public class NoteEntity {
     @PrimaryKey
     public int id;
     public String content;
-    public String tags;
+    @TypeConverters(DataConverter.class)
+    @ColumnInfo(name = "tagList")
+    List<String> tagList;
 
     public int getId() {
         return id;
@@ -28,11 +36,11 @@ public class NoteEntity {
         this.content = content;
     }
 
-    public String getTags() {
-        return tags;
+    public List<String> getTagList() {
+        return tagList;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 }

@@ -1,7 +1,7 @@
 package pfe.remindme.data.di;
 
-import pfe.remindme.data.repository.NoteDisplayDataRepository;
-import pfe.remindme.data.repository.NoteDisplayRepository;
+import pfe.remindme.data.repository.notedisplay.NoteDisplayDataRepository;
+import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
 
 public class FakeDependencyInjection {
     public static NoteDisplayRepository getPokemonDisplayRepository() {

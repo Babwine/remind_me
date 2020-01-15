@@ -12,6 +12,7 @@ public class NoteToViewModelMapper {
 
     public NoteItemViewModel map(Note note) {
         NoteItemViewModel noteItemViewModel = new NoteItemViewModel();
+        noteItemViewModel.setId(note.getId());
         noteItemViewModel.setNoteContent(note.getContent());
         String tagsString = "";
         for (Tag t : note.getTags()) {

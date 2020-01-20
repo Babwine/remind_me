@@ -16,4 +16,14 @@ public class NotesFragment extends Fragment implements NoteActionInterface, Note
     public void displayNotes(List<NoteItemViewModel> noteItemViewModelList) {
 
     }
+
+    @Override
+    public void onNoteAdded() {
+        //Do nothing
+    }
+
+    @Override
+    public void onNoteDeleted() {
+        //Do nothing
+    }
 }

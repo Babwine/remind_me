@@ -55,6 +55,18 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     }
 
     @Override
+    public Flowable<List<Note>> getAllNotes() {
+        return noteDisplayLocalDataSource.loadAllNotes().map(
+                new Function<List<NoteEntity>, List<Note>>() {
+                    @Override
+                    public List<Note> apply(List<NoteEntity> noteEntityList) throws Exception {
+                        return noteEntityToNoteMapper.map(noteEntityList);
+                    }
+                }
+        );
+    }
+
+    @Override
     public Single<Tag> getTagByTagName(String tagName) {
         return noteDisplayLocalDataSource.loadTag(tagName).map(
                 new Function<TagEntity, Tag>() {

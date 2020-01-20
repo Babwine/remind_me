@@ -4,8 +4,12 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.List;
+
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
+import pfe.remindme.data.Note;
 import pfe.remindme.data.entity.NoteEntity;
 
 @Dao
@@ -21,4 +25,7 @@ public interface NoteDao {
 
     @Query("SELECT tagList from noteentity WHERE id = :id")
     Single<String> getTagsFromNoteAsJson(int id);
+
+    @Query("SELECT * from noteentity ORDER BY id DESC")
+    Flowable<List<NoteEntity>> loadAllNotes();
 }

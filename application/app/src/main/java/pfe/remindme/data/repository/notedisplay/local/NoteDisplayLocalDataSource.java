@@ -5,6 +5,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import pfe.remindme.data.Note;
 import pfe.remindme.data.db.NoteDatabase;
 import pfe.remindme.data.db.TagDatabase;
 import pfe.remindme.data.entity.NoteEntity;
@@ -52,4 +53,7 @@ public class NoteDisplayLocalDataSource {
     }
 
 
+    public Flowable<List<NoteEntity>> loadAllNotes() {
+        return noteDatabase.noteDao().loadAllNotes();
+    }
 }

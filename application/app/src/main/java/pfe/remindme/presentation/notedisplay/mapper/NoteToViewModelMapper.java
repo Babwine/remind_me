@@ -15,17 +15,10 @@ public class NoteToViewModelMapper {
         noteItemViewModel.setId(note.getId());
         noteItemViewModel.setNoteContent(note.getContent());
         String tagsString = "";
-        for (Tag t : note.getTags()) {
-            tagsString += t.getTagName() + ", ";
+        for (String t : note.getTags()) {
+            tagsString += t + ", ";
         }
         tagsString = tagsString.substring(0,tagsString.length()-1);
-
-        tagsString+="\nLINKED NOTES :\n";
-        for (Tag t : note.getTags()) {
-            for (Note n : t.getLinkedNotes()) {
-                if (!n.equals(note)) tagsString+=n.getContent()+"\n";
-            }
-        }
 
         noteItemViewModel.setNoteTags(tagsString);
 

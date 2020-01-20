@@ -13,6 +13,8 @@ import pfe.remindme.data.entity.TagEntity;
 public interface NoteDisplayRepository {
     Single<Note> getNoteById(int noteId);
 
+    Flowable<List<Note>> getAllNotes();
+
     Single<Tag> getTagByTagName(String tagName);
 
     Flowable<List<Tag>> getTagDatabase();

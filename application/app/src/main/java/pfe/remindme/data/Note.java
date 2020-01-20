@@ -1,5 +1,7 @@
 package pfe.remindme.data;
 
+import androidx.room.Ignore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,16 @@ public class Note {
 
     public Note(int id, String content) {
         this.id = id;
+        this.content = content;
+        this.tags = new ArrayList<>();
+        String[] tmp = content.split(" ");
+        for (String word : tmp) {
+            tags.add(word);
+        }
+    }
+
+    @Ignore
+    public Note(String content) {
         this.content = content;
         this.tags = new ArrayList<>();
         String[] tmp = content.split(" ");

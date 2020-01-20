@@ -1,4 +1,4 @@
-package pfe.remindme;
+package pfe.remindme.presentation.notedisplay.fragment;
 
 import android.os.Bundle;
 
@@ -17,9 +17,11 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import pfe.remindme.R;
 import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
 import pfe.remindme.data.di.FakeDependencyInjection;
+import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.presentation.notedisplay.NoteContract;
 import pfe.remindme.presentation.notedisplay.NotePresenter;
 import pfe.remindme.presentation.notedisplay.adapter.NoteActionInterface;
@@ -36,29 +38,20 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+        FakeDependencyInjection.setContext(this);
+
 
 
         noteAdapter = new NoteAdapter(this);
-        notePresenter = new NotePresenter(FakeDependencyInjection.getPokemonDisplayRepository(), new NoteToViewModelMapper());
-        notePresenter.attachView(this);
+        notePresenter = new NotePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToViewModelMapper(), new NoteToNoteEntityMapper());
         setupRecyclerView();
 
-        //TODO TMP
-
-        List<Tag> tagDatabase = new ArrayList<>();
-
-        List<Note> noteList = new ArrayList<>();
-
-        Note note1 = new Note("rangé chien niche", tagDatabase);
-        Note note2 = new Note("acheter croquettes chien", tagDatabase);
-        Note note3 = new Note("acheter brosse dents", tagDatabase);
-
-        noteList.add(note1);
-        noteList.add(note2);
-        noteList.add(note3);
-
         notePresenter.attachView(this);
-        notePresenter.displayNotes(noteList);
+
+        //TESTER ICI POUR AJOUT MANUEL DE NOTES
+
+
+        notePresenter.displayNotes();
     }
 
 
@@ -83,5 +76,15 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     @Override
     public void displayNotes(List<NoteItemViewModel> noteItemViewModelList) {
         noteAdapter.bindViewModels(noteItemViewModelList);
+    }
+
+    @Override
+    public void onNoteAdded() {
+
+    }
+
+    @Override
+    public void onNoteDeleted() {
+
     }
 }

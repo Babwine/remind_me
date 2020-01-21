@@ -25,5 +25,9 @@ public interface NoteContract {
         void addNote(String note_content);
 
         void removeNote(int noteId);
+
+        void displayNotesFromTag(String tagName);
+
+        void displayNotesFromIdList(List<Integer> noteIdList);
     }
 }

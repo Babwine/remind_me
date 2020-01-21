@@ -116,4 +116,16 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     public Completable removeNote(int noteId) {
         return noteDisplayLocalDataSource.removeNote(noteId);
     }
+
+    @Override
+    public Flowable<List<Note>> getNotesFromIdList(List<Integer> noteIdList) {
+        return noteDisplayLocalDataSource.getNotesFromIdList(noteIdList).map(
+                new Function<List<NoteEntity>, List<Note>>() {
+                    @Override
+                    public List<Note> apply(List<NoteEntity> noteEntities) throws Exception {
+                        return noteEntityToNoteMapper.map(noteEntities);
+                    }
+                }
+        );
+    }
 }

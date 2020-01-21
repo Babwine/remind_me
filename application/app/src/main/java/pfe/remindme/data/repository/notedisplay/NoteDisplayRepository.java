@@ -28,4 +28,6 @@ public interface NoteDisplayRepository {
     Completable updateTag(Tag tag);
 
     Completable removeNote(int noteid);
+
+    Flowable<List<Note>> getNotesFromIdList(List<Integer> noteIdList);
 }

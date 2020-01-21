@@ -1,13 +1,17 @@
 package pfe.remindme.presentation.notedisplay;
 
+import android.provider.ContactsContract;
+
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.ResourceSubscriber;
+import pfe.remindme.data.DataConverter;
 import pfe.remindme.data.Note;
 import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
@@ -22,6 +26,8 @@ public class NotePresenter implements NoteContract.Presenter {
     private NoteToNoteEntityMapper noteToNoteEntityMapper;
     private NoteDisplayRepository noteDisplayRepository;
     private CompositeDisposable compositeDisposable;
+
+    private List<Note> currentNotes;
 
     public NotePresenter(NoteDisplayRepository repo,
                          NoteToViewModelMapper noteToViewModelMapper,
@@ -103,6 +109,53 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void displayNotesFromTag(String tagName) {
+        compositeDisposable.add(noteDisplayRepository.getLinkedNotesIdFromTagAsJson(tagName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<String>() {
+
+                    @Override
+                    public void onSuccess(String s) {
+                        DataConverter dc = new DataConverter();
+                        List<Integer> notes = dc.toNoteIdList(s);
+                        //TODO : récupérer ces notes pour les passer à la méthode displayNotesFromIdList
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void displayNotesFromIdList(List<Integer> noteIdList) {
+        compositeDisposable.add(noteDisplayRepository.getNotesFromIdList(noteIdList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new ResourceSubscriber<List<Note>>() {
+
+                    @Override
+                    public void onNext(List<Note> noteList) {
+                        view.displayNotes(noteToViewModelMapper.map(noteList));
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
 
                     }
                 })

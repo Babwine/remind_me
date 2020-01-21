@@ -56,4 +56,8 @@ public class NoteDisplayLocalDataSource {
     public Flowable<List<NoteEntity>> loadAllNotes() {
         return noteDatabase.noteDao().loadAllNotes();
     }
+
+    public Flowable<List<NoteEntity>> getNotesFromIdList(List<Integer> noteIdList) {
+        return noteDatabase.noteDao().loadNotesFromIdList(noteIdList);
+    }
 }

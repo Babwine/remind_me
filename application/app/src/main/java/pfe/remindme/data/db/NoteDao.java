@@ -28,4 +28,7 @@ public interface NoteDao {
 
     @Query("SELECT * from noteentity ORDER BY id DESC")
     Flowable<List<NoteEntity>> loadAllNotes();
+
+    @Query("SELECT * from noteentity WHERE id IN (:noteIdList)")
+    Flowable<List<NoteEntity>> loadNotesFromIdList(List<Integer> noteIdList);
 }

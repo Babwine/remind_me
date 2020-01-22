@@ -16,10 +16,12 @@ public class TagEntity {
     @PrimaryKey
     String tagName;
 
-    @TypeConverters(DataConverter.class) // add here
+    @TypeConverters(DataConverter.class)
     @ColumnInfo(name = "linkedNotesIdList")
     List<Integer> linkedNotesIdList;
 
+
+    @TypeConverters(DataConverter.class)
     public List<Integer> getLinkedNotesIdList() {
         return linkedNotesIdList;
     }

@@ -14,45 +14,27 @@ public class DataConverter {
 
     @TypeConverter
     public String fromNoteIdList(List<Integer> noteIdList) {
-        if (noteIdList == null) {
-            return (null);
-        }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        String json = gson.toJson(noteIdList, type);
+        String json = gson.toJson(noteIdList);
         return json;
     }
 
     @TypeConverter
     public List<Integer> toNoteIdList(String noteIdString) {
-        if (noteIdString == null) {
-            return (null);
-        }
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> noteIdList = gson.fromJson(noteIdString, type);
-        return noteIdList;
+        Type listType = new TypeToken<List<Integer>>() {}.getType();
+        return new Gson().fromJson(noteIdString, listType);
     }
 
     @TypeConverter
     public String fromTagNameList(List<String> tagNameList) {
-        if (tagNameList == null) {
-            return (null);
-        }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {}.getType();
-        String json = gson.toJson(tagNameList, type);
+        String json = gson.toJson(tagNameList);
         return json;
     }
 
     @TypeConverter
     public List<String> toTagNameList(String tagNameString) {
-        if (tagNameString == null) {
-            return (null);
-        }
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {}.getType();
-        List<String> tagNameList = gson.fromJson(tagNameString, type);
-        return tagNameList;
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        return new Gson().fromJson(tagNameString, listType);
     }
 }

@@ -21,6 +21,7 @@ import pfe.remindme.R;
 import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
 import pfe.remindme.data.di.FakeDependencyInjection;
+import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.presentation.notedisplay.NoteContract;
 import pfe.remindme.presentation.notedisplay.NotePresenter;
@@ -34,6 +35,10 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     private NoteAdapter noteAdapter;
     private RecyclerView recyclerView;
 
+    private List<NoteItemViewModel> currentNotes;
+
+    private Tag tagToUpdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +46,9 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         FakeDependencyInjection.setContext(this);
 
 
-
+        currentNotes = new ArrayList<>();
         noteAdapter = new NoteAdapter(this);
-        notePresenter = new NotePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToViewModelMapper(), new NoteToNoteEntityMapper());
+        notePresenter = new NotePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToViewModelMapper(), new NoteToNoteEntityMapper(), new NoteEntityToNoteMapper());
         setupRecyclerView();
 
         notePresenter.attachView(this);
@@ -51,14 +56,25 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         //TESTER ICI POUR AJOUT MANUEL DE NOTES
 
 
-        notePresenter.displayNotes();
+        //notePresenter.deleteAllNotes();
+        //notePresenter.deleteAllTags();
+
+        //notePresenter.addNote("rangé chien niche");
+        //notePresenter.addNote("acheter brosse dents");
+        //notePresenter.addNote("acheter trousse toilettes");
+
+
+        notePresenter.displayAllNotes();
+
+        //notePresenter.getTagDatabase();
+
+        //notePresenter.displayNotesFromTag("acheter");
+
+
     }
 
 
 
-    /**
-     * A function to setup the recycler view in which the Pokemon's main view is
-     */
     private void setupRecyclerView() {
         recyclerView = this.findViewById(R.id.recyclerView);
         noteAdapter = new NoteAdapter(this);
@@ -74,17 +90,45 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
 
     @Override
-    public void displayNotes(List<NoteItemViewModel> noteItemViewModelList) {
-        noteAdapter.bindViewModels(noteItemViewModelList);
+    public void displayNotes() {
+        noteAdapter.bindViewModels(currentNotes);
     }
 
     @Override
-    public void onNoteAdded() {
+    public void setNotes(List<NoteItemViewModel> notes) {
+        this.currentNotes = notes;
+    }
 
+    @Override
+    public void setNotesByIdList(List<Integer> noteIdList) {
+        notePresenter.displayNotesFromIdList(noteIdList);
+    }
+
+    @Override
+    public void onNoteAdded(Note note) {
+        for (String tagName : note.getTags()) {
+            notePresenter.getTag(tagName);
+            if (tagToUpdate == null) {
+                tagToUpdate = new Tag(tagName);
+                tagToUpdate.addNote(note.getId());
+                notePresenter.addTag(tagToUpdate);
+                //notePresenter.updateTag(tagToUpdate);
+            } else {
+                tagToUpdate.addNote(note.getId());
+                notePresenter.updateTag(tagToUpdate);
+            }
+
+        }
     }
 
     @Override
     public void onNoteDeleted() {
 
+    }
+
+
+    @Override
+    public void getTag(Tag tag) {
+        this.tagToUpdate = tag;
     }
 }

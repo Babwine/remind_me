@@ -60,4 +60,16 @@ public class NoteDisplayLocalDataSource {
     public Flowable<List<NoteEntity>> getNotesFromIdList(List<Integer> noteIdList) {
         return noteDatabase.noteDao().loadNotesFromIdList(noteIdList);
     }
+
+    public Completable deleteAllNotes() {
+        return noteDatabase.noteDao().deleteAll();
+    }
+
+    public Completable deleteAllTags() {
+        return tagDatabase.tagDao().deleteAll();
+    }
+
+    public Completable addtag(TagEntity tagEntity) {
+        return tagDatabase.tagDao().addTag(tagEntity);
+    }
 }

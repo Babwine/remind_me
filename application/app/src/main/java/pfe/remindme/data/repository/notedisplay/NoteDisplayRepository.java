@@ -30,4 +30,10 @@ public interface NoteDisplayRepository {
     Completable removeNote(int noteid);
 
     Flowable<List<Note>> getNotesFromIdList(List<Integer> noteIdList);
+
+    Completable deleteAllNotes();
+
+    Completable deleteAllTags();
+
+    Completable addTag(Tag tag);
 }

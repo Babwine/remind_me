@@ -128,4 +128,19 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
                 }
         );
     }
+
+    @Override
+    public Completable deleteAllNotes() {
+        return noteDisplayLocalDataSource.deleteAllNotes();
+    }
+
+    @Override
+    public Completable deleteAllTags() {
+        return noteDisplayLocalDataSource.deleteAllTags();
+    }
+
+    @Override
+    public Completable addTag(Tag tag) {
+        return noteDisplayLocalDataSource.addtag(tagToTagEntityMapper.map(tag));
+    }
 }

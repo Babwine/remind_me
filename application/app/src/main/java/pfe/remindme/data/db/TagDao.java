@@ -1,6 +1,7 @@
 package pfe.remindme.data.db;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -18,13 +19,19 @@ public interface TagDao {
     @Query("SELECT * from tagentity WHERE tagName = :tagName")
     Single<TagEntity> loadTag(String tagName);
 
+    @Insert
+    Completable addTag(TagEntity tagEntity);
+
     @Update
     Completable updateTag(TagEntity tagEntity);
+
+    @Query("DELETE FROM tagentity")
+    Completable deleteAll();
 
     @Query("SELECT * from tagentity")
     Flowable<List<TagEntity>> getAllTags();
 
-    @Query("SELECT linkedNotesIdList from tagentity WHERE tagName = :tagName")
+    @Query("SELECT linkedNotesIdList from tagentity WHERE (tagName = :tagName) OR (tagName = \"acheter\")")
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
 }

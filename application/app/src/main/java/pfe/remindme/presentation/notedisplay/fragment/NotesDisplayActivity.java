@@ -59,9 +59,10 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         //notePresenter.deleteAllNotes();
         //notePresenter.deleteAllTags();
 
-        notePresenter.addNote("rangé chien niche");
-        //notePresenter.addNote("acheter brosse dents");
-        //notePresenter.addNote("acheter trousse toilettes");
+        //notePresenter.addNote("rangé chien niche");
+        notePresenter.addNote("acheter brosse dents");
+        notePresenter.addNote("acheter trousse toilettes");
+        
 
 
         //notePresenter.displayAllNotes();

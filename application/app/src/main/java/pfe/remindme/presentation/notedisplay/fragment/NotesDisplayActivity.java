@@ -59,14 +59,14 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         //notePresenter.deleteAllNotes();
         //notePresenter.deleteAllTags();
 
-        //notePresenter.addNote("rangé chien niche");
+        notePresenter.addNote("rangé chien niche");
         //notePresenter.addNote("acheter brosse dents");
         //notePresenter.addNote("acheter trousse toilettes");
 
 
-        notePresenter.displayAllNotes();
+        //notePresenter.displayAllNotes();
 
-        //notePresenter.getTagDatabase();
+        notePresenter.getTagDatabase();
 
         //notePresenter.displayNotesFromTag("acheter");
 
@@ -113,9 +113,11 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
                 tagToUpdate.addNote(note.getId());
                 notePresenter.addTag(tagToUpdate);
                 //notePresenter.updateTag(tagToUpdate);
+                tagToUpdate = null;
             } else {
                 tagToUpdate.addNote(note.getId());
                 notePresenter.updateTag(tagToUpdate);
+                tagToUpdate = null;
             }
 
         }

@@ -31,7 +31,7 @@ public interface TagDao {
     @Query("SELECT * from tagentity")
     Flowable<List<TagEntity>> getAllTags();
 
-    @Query("SELECT linkedNotesIdList from tagentity WHERE (tagName = :tagName) OR (tagName = \"acheter\")")
+    @Query("SELECT linkedNotesIdList from tagentity WHERE tagName = :tagName")
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
 }

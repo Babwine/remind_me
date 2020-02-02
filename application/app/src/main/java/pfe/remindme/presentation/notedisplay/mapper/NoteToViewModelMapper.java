@@ -20,6 +20,9 @@ public class NoteToViewModelMapper {
         }
         tagsString = tagsString.substring(0,tagsString.length()-1);
 
+        tagsString += " /// ID:"+note.getId();
+
+
         noteItemViewModel.setNoteTags(tagsString);
 
         return noteItemViewModel;

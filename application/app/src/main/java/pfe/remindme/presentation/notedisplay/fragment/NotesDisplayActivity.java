@@ -6,6 +6,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pfe.remindme.R;
 import pfe.remindme.data.Note;
@@ -34,6 +38,8 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     private NoteContract.Presenter notePresenter;
     private NoteAdapter noteAdapter;
     private RecyclerView recyclerView;
+    private SearchView searchView;
+    private ProgressBar progressBar;
 
     private List<NoteItemViewModel> currentNotes;
 
@@ -48,37 +54,62 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         currentNotes = new ArrayList<>();
         noteAdapter = new NoteAdapter(this);
         notePresenter = new NotePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToViewModelMapper(), new NoteToNoteEntityMapper(), new NoteEntityToNoteMapper());
+        setupSearchView();
         setupRecyclerView();
+        progressBar = findViewById(R.id.progress_bar);
 
         notePresenter.attachView(this);
 
         //TESTER ICI POUR AJOUT MANUEL DE NOTES
-
-
         //notePresenter.deleteAllNotes();
         //notePresenter.deleteAllTags();
 
         //notePresenter.addNote("rangé chien niche");
         //notePresenter.addNote("acheter brosse dents");
-        //notePresenter.addNote("acheter trousse toilettes");
-        
+        //notePresenter.addNote("acheter patates");
 
-
-        //notePresenter.displayAllNotes();
-
-        //notePresenter.getTagDatabase();
+        notePresenter.displayAllNotes();
 
 
 
-        notePresenter.displayNotesFromTag("acheter");
+    }
 
-        //notePresenter.getNoteById(30);
+    private void setupSearchView() {
+        searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            private Timer timer = new Timer();
 
-        //notePresenter.getTagById(-1380608122);
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-        //notePresenter.getTagByTagName("acheter");
-
-
+            @Override
+            public boolean onQueryTextChange(final String s) {
+                if (s.length() == 0) {
+                    notePresenter.displayAllNotes();
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    timer.cancel();
+                    timer = new Timer();
+                    int sleep = 350;
+                    if (s.length() == 1)
+                        sleep = 5000;
+                    else if (s.length() <= 3)
+                        sleep = 300;
+                    else if (s.length() <= 5)
+                        sleep = 200;
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            notePresenter.displayNotesFromTag(s);
+                        }
+                    }, sleep);
+                }
+                return true;
+            }
+        });
     }
 
 

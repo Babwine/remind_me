@@ -55,8 +55,8 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         //TESTER ICI POUR AJOUT MANUEL DE NOTES
 
 
-        //notePresenter.deleteAllNotes();
-        //notePresenter.deleteAllTags();
+        notePresenter.deleteAllNotes();
+        notePresenter.deleteAllTags();
 
         //notePresenter.addNote("rangé chien niche");
         //notePresenter.addNote("acheter brosse dents");
@@ -76,7 +76,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
         //notePresenter.getTagById(-1380608122);
 
-        notePresenter.getTagByTagName("acheter");
+        //notePresenter.getTagByTagName("acheter");
 
 
     }

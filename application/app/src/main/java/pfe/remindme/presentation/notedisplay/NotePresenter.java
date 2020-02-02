@@ -89,10 +89,13 @@ public class NotePresenter implements NoteContract.Presenter {
         compositeDisposable.add(noteDisplayRepository.addNote(noteEntity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableCompletableObserver() {
+                .subscribeWith(new DisposableSingleObserver<Long>() {
+
                     @Override
-                    public void onComplete() {
-                        view.onNoteAdded(noteEntityToNoteMapper.map(noteEntity));
+                    public void onSuccess(Long aLong) {
+                        Note addedNote = noteEntityToNoteMapper.map(noteEntity);
+                        addedNote.setId(aLong.intValue());
+                        view.onNoteAdded(addedNote);
                     }
 
                     @Override

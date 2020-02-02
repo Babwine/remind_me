@@ -103,7 +103,7 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
 
 
     @Override
-    public Completable addNote(NoteEntity noteEntity) {
+    public Single<Long> addNote(NoteEntity noteEntity) {
         return noteDisplayLocalDataSource.addNote(noteEntity);
     }
 

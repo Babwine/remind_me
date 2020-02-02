@@ -23,7 +23,7 @@ public interface NoteDisplayRepository {
 
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
-    Completable addNote(NoteEntity noteEntity);
+    Single<Long> addNote(NoteEntity noteEntity);
 
     Completable updateTag(Tag tag);
 

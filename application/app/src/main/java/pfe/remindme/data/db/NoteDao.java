@@ -18,7 +18,7 @@ public interface NoteDao {
     Single<NoteEntity> loadNote(int id);
 
     @Insert
-    Completable addNote(NoteEntity noteEntity);
+    Single<Long> addNote(NoteEntity noteEntity);
 
     @Query("DELETE FROM noteentity")
     Completable deleteAll();

@@ -24,7 +24,7 @@ public class NoteDisplayLocalDataSource {
         return noteDatabase.noteDao().loadNote(id);
     }
 
-    public Completable addNote(NoteEntity noteEntity) {
+    public Single<Long> addNote(NoteEntity noteEntity) {
         return noteDatabase.noteDao().addNote(noteEntity);
     }
 

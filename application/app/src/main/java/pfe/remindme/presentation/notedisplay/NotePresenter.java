@@ -20,6 +20,7 @@ import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
+import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
 import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
 
@@ -100,7 +101,7 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
                 })
         );
@@ -143,7 +144,8 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        view.setNotes(new ArrayList<NoteItemViewModel>());
+                        view.displayNotes();
                     }
                 })
         );

@@ -95,7 +95,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
                     timer = new Timer();
                     int sleep = 350;
                     if (s.length() == 1)
-                        sleep = 5000;
+                        sleep = 500;
                     else if (s.length() <= 3)
                         sleep = 300;
                     else if (s.length() <= 5)
@@ -103,7 +103,8 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            notePresenter.displayNotesFromTag(s);
+                            if (s.length() == 0) notePresenter.displayAllNotes();
+                            else notePresenter.displayNotesFromTag(s);
                         }
                     }, sleep);
                 }

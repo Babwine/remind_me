@@ -37,7 +37,6 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
     private List<NoteItemViewModel> currentNotes;
 
-    private Tag tagToUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +59,24 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         //notePresenter.deleteAllTags();
 
         //notePresenter.addNote("rangé chien niche");
-        notePresenter.addNote("acheter brosse dents");
-        notePresenter.addNote("acheter trousse toilettes");
+        //notePresenter.addNote("acheter brosse dents");
+        //notePresenter.addNote("acheter trousse toilettes");
         
 
 
         //notePresenter.displayAllNotes();
 
-        notePresenter.getTagDatabase();
+        //notePresenter.getTagDatabase();
+
+
 
         //notePresenter.displayNotesFromTag("acheter");
+
+        //notePresenter.getNoteById(30);
+
+        //notePresenter.getTagById(-1380608122);
+
+        notePresenter.getTagByTagName("acheter");
 
 
     }
@@ -108,19 +115,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     @Override
     public void onNoteAdded(Note note) {
         for (String tagName : note.getTags()) {
-            notePresenter.getTag(tagName);
-            if (tagToUpdate == null) {
-                tagToUpdate = new Tag(tagName);
-                tagToUpdate.addNote(note.getId());
-                notePresenter.addTag(tagToUpdate);
-                //notePresenter.updateTag(tagToUpdate);
-                tagToUpdate = null;
-            } else {
-                tagToUpdate.addNote(note.getId());
-                notePresenter.updateTag(tagToUpdate);
-                tagToUpdate = null;
-            }
-
+            notePresenter.getTag(tagName, note);
         }
     }
 
@@ -129,9 +124,12 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
     }
 
-
     @Override
-    public void getTag(Tag tag) {
-        this.tagToUpdate = tag;
+    public void getTag(Tag tag, Note note) {
+
     }
+
+
+
+
 }

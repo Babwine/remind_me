@@ -2,6 +2,7 @@ package pfe.remindme.presentation.notedisplay;
 
 import android.provider.ContactsContract;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,7 +213,7 @@ public class NotePresenter implements NoteContract.Presenter {
     }
 
     @Override
-    public void getTag(String tagName) {
+    public void getTag(final String tagName, final Note note) {
         compositeDisposable.add(noteDisplayRepository.getTagByTagName(tagName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -220,13 +221,54 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onSuccess(Tag tag) {
-                        view.getTag(tag);
+                        Tag tagToUpdate;
+                        if (tag == null) {
+                            tagToUpdate = new Tag(tagName);
+                            tagToUpdate.addNote(note.getId());
+                            addTag(tagToUpdate);
+                        } else {
+                            tagToUpdate = tag;
+                            tagToUpdate.addNote(note.getId());
+                            updateTag(tagToUpdate);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        if (e.getMessage().contains("returned empty result set")) {
+                            Tag tagToUpdate;
+                            tagToUpdate = new Tag(tagName);
+                            tagToUpdate.addNote(note.getId());
+                            addTag(tagToUpdate);
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
+                })
+        );
+    }
+
+
+    @Override
+    public void getTagByTagName(String tagName) {
+        compositeDisposable.add(noteDisplayRepository.getTagByTagName(tagName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Tag>() {
+
+                    @Override
+                    public void onSuccess(Tag t) {
+                        List<Note> notes = new ArrayList<>();
+                        notes.add(new Note(t.getTagName()+ " /// "+t.getLinkedNotes().toString()));
+                        view.setNotes(noteToViewModelMapper.map(notes));
+                        view.displayNotes();
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                    }
+
                 })
         );
     }
@@ -297,6 +339,29 @@ public class NotePresenter implements NoteContract.Presenter {
                     @Override
                     public void onComplete() {
 
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void getNoteById(int noteId) {
+        compositeDisposable.add(noteDisplayRepository.getNoteById(noteId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Note>() {
+
+                    @Override
+                    public void onSuccess(Note n) {
+                        List<Note> notes = new ArrayList<>();
+                        notes.add(n);
+                        view.setNotes(noteToViewModelMapper.map(notes));
+                        view.displayNotes();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
                     }
                 })
         );

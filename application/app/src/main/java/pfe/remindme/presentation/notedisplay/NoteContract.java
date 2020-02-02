@@ -18,9 +18,8 @@ public interface NoteContract {
 
         void onNoteDeleted();
 
+        void getTag(Tag tag, Note note);
 
-
-        void getTag(Tag tag);
 
     }
 
@@ -44,12 +43,16 @@ public interface NoteContract {
 
         void deleteAllTags();
 
-        void getTag(String tagName);
+        void getTag(String tagName, Note note);
+
+        void getTagByTagName(String tagName);
 
         void updateTag(Tag tag);
 
         void addTag(Tag tag);
 
         void getTagDatabase();
+
+        void getNoteById(int noteId);
     }
 }

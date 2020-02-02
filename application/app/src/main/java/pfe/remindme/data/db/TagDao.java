@@ -34,4 +34,7 @@ public interface TagDao {
     @Query("SELECT linkedNotesIdList from tagentity WHERE tagName = :tagName")
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
+    @Query("SELECT linkedNotesIdList from tagentity WHERE tagName LIKE '%' || :str || '%'")
+    Flowable<List<String>> getLinkedNotesIdFromStringLikeTagAsJson(String str);
+
 }

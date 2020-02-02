@@ -52,6 +52,10 @@ public class NoteDisplayLocalDataSource {
         return tagDatabase.tagDao().getLinkedNotesIdFromTagAsJson(tagName);
     }
 
+    public Flowable<List<String>> getLinkedNotesIdFromStringLikeTagAsJson(String str) {
+        return tagDatabase.tagDao().getLinkedNotesIdFromStringLikeTagAsJson(str);
+    }
+
 
     public Flowable<List<NoteEntity>> loadAllNotes() {
         return noteDatabase.noteDao().loadAllNotes();

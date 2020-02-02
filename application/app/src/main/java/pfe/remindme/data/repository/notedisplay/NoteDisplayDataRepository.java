@@ -101,6 +101,11 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
         return noteDisplayLocalDataSource.getLinkedNotesIdFromTagAsJson(tagName);
     }
 
+    @Override
+    public Flowable<List<String>> getLinkedNotesIdFromStringLikeTagAsJson(String str) {
+        return noteDisplayLocalDataSource.getLinkedNotesIdFromStringLikeTagAsJson(str);
+    }
+
 
     @Override
     public Single<Long> addNote(NoteEntity noteEntity) {

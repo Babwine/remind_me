@@ -152,6 +152,43 @@ public class NotePresenter implements NoteContract.Presenter {
     }
 
     @Override
+    public void displayNotesFromStringLikeTag(final String str) {
+        compositeDisposable.add(noteDisplayRepository.getLinkedNotesIdFromStringLikeTagAsJson(str)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new ResourceSubscriber<List<String>>() {
+
+
+                    @Override
+                    public void onNext(List<String> stringList) {
+                        DataConverter dc = new DataConverter();
+                        List<Integer> notes = new ArrayList<>();
+                        for (String json : stringList) {
+                            List<Integer> tmp = dc.toNoteIdList(json);
+                            for (Integer noteId : tmp) {
+                                if (!notes.contains(noteId)) {
+                                    notes.add(noteId);
+                                }
+                            }
+                        }
+                        view.setNotesByIdList(notes);
+                        view.displayNotes();
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                })
+        );
+    }
+
+    @Override
     public void displayNotesFromIdList(List<Integer> noteIdList) {
         compositeDisposable.add(noteDisplayRepository.getNotesFromIdList(noteIdList)
                 .subscribeOn(Schedulers.io())

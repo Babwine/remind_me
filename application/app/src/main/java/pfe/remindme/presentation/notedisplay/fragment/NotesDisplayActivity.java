@@ -67,6 +67,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         //notePresenter.addNote("rangé chien niche");
         //notePresenter.addNote("acheter brosse dents");
         //notePresenter.addNote("acheter patates");
+        //notePresenter.addNote("acheter brownie");
 
         notePresenter.displayAllNotes();
 

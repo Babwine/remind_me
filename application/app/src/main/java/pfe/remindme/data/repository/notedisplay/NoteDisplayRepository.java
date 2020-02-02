@@ -23,6 +23,8 @@ public interface NoteDisplayRepository {
 
     Single<String> getLinkedNotesIdFromTagAsJson(String tagName);
 
+    Flowable<List<String>> getLinkedNotesIdFromStringLikeTagAsJson(String str);
+
     Single<Long> addNote(NoteEntity noteEntity);
 
     Completable updateTag(Tag tag);

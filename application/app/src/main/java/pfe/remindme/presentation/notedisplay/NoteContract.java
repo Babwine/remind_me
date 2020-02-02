@@ -37,6 +37,8 @@ public interface NoteContract {
 
         void displayNotesFromTag(String tagName);
 
+        void displayNotesFromStringLikeTag(String str);
+
         void displayNotesFromIdList(List<Integer> noteIdList);
 
         void deleteAllNotes();

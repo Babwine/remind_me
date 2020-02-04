@@ -63,8 +63,6 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
         notePresenter.attachView(this);
 
-        notePresenter.addNote("acheter brownie");
-
         notePresenter.displayAllNotes();
 
 
@@ -171,6 +169,8 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
             public void onClick(DialogInterface dialog, int which) {
                 notePresenter.removeNote(noteId);
                 dialog.dismiss();
+                if (searchView.getQuery().toString().length() == 0) notePresenter.displayAllNotes();
+                else notePresenter.displayNotesFromStringLikeTag(searchView.getQuery().toString());
             }
         });
 

@@ -1,10 +1,12 @@
 package pfe.remindme.presentation.notedisplay.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -59,6 +62,8 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         progressBar = findViewById(R.id.progress_bar);
 
         notePresenter.attachView(this);
+
+        notePresenter.addNote("acheter brownie");
 
         notePresenter.displayAllNotes();
 
@@ -154,6 +159,29 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     }
 
 
+    @Override
+    public void onNoteDeleted(final int noteId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Voulez-vous vraiment supprimer cette note ?");
+        builder.setTitle("Suppression de note");
+        builder.setCancelable(false);
 
+        builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                notePresenter.removeNote(noteId);
+                dialog.dismiss();
+            }
+        });
 
+        builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        builder.show();
+    }
 }

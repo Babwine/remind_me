@@ -24,6 +24,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/note_tags"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="My note content" />
 
@@ -35,6 +36,16 @@
             app:layout_constraintLeft_toLeftOf="@id/note_content"
             app:layout_constraintTop_toBottomOf="@id/note_content"
             tools:text="Tag 1, tag 2" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="@dimen/suppr_image_width"
+            android:layout_height="@dimen/suppr_image_height"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/trash" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

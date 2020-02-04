@@ -3,6 +3,7 @@ package pfe.remindme.presentation.notedisplay.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         private View v;
         private NoteItemViewModel noteItemViewModel;
         private NoteActionInterface noteActionInterface;
+        private ImageButton deleteButton;
 
         public NoteViewHolder(@NonNull View v, NoteActionInterface noteActionInterface) {
             super(v);
@@ -29,13 +31,21 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             this.noteActionInterface = noteActionInterface;
             contentTextView = v.findViewById(R.id.note_content);
             tagsTextView = v.findViewById(R.id.note_tags);
+            deleteButton = v.findViewById(R.id.deleteButton);
 
             setupListeners();
         }
 
         private void setupListeners() {
+            deleteButton.setOnClickListener(new ImageButton.OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    noteActionInterface.onNoteDeleted(noteItemViewModel.getId());
+                }
+            });
         }
+
         void bind(NoteItemViewModel noteItemViewModel) {
             this.noteItemViewModel = noteItemViewModel;
             contentTextView.setText(noteItemViewModel.getNoteContent());

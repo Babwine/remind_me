@@ -60,15 +60,6 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
         notePresenter.attachView(this);
 
-        //TESTER ICI POUR AJOUT MANUEL DE NOTES
-        //notePresenter.deleteAllNotes();
-        //notePresenter.deleteAllTags();
-
-        //notePresenter.addNote("rangé chien niche");
-        //notePresenter.addNote("acheter brosse dents");
-        //notePresenter.addNote("acheter patates");
-        //notePresenter.addNote("acheter brownie");
-
         notePresenter.displayAllNotes();
 
 
@@ -105,7 +96,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
                         @Override
                         public void run() {
                             if (s.length() == 0) notePresenter.displayAllNotes();
-                            else notePresenter.displayNotesFromTag(s);
+                            else notePresenter.displayNotesFromStringLikeTag(s);
                         }
                     }, sleep);
                 }

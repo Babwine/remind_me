@@ -1,6 +1,8 @@
 package pfe.remindme.presentation.notedisplay.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +32,7 @@ import pfe.remindme.data.Tag;
 import pfe.remindme.data.di.FakeDependencyInjection;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
+import pfe.remindme.presentation.notecapture.fragment.NotesCaptureActivity;
 import pfe.remindme.presentation.notedisplay.NoteContract;
 import pfe.remindme.presentation.notedisplay.NotePresenter;
 import pfe.remindme.presentation.notedisplay.adapter.NoteActionInterface;
@@ -45,6 +48,8 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     private ProgressBar progressBar;
 
     private List<NoteItemViewModel> currentNotes;
+
+    private FloatingActionButton addNoteButton;
 
 
     @Override
@@ -65,8 +70,25 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
         notePresenter.displayAllNotes();
 
+        addNoteButton = findViewById(R.id.addNoteButton);
 
+        setupListeners();
 
+    }
+
+    private void setupListeners() {
+        addNoteButton.setOnClickListener(new FloatingActionButton.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                switchActivity(v);
+            }
+        });
+    }
+
+    private void switchActivity(View v) {
+        Intent intent = new Intent(this, NotesCaptureActivity.class);
+        startActivity(intent);
     }
 
     private void setupSearchView() {

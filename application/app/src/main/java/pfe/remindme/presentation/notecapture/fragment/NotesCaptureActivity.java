@@ -1,8 +1,12 @@
 package pfe.remindme.presentation.notecapture.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -25,5 +29,34 @@ import pfe.remindme.presentation.notedisplay.NoteContract;
 import pfe.remindme.presentation.notedisplay.NotePresenter;
 
 public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptureContract.View {
+
+    private EditText noteText;
+    private Button ajouterButton;
+    private Button clearButton;
+    private Button backButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_capture);
+        FakeDependencyInjection.setContext(this);
+
+        noteText = findViewById(R.id.note_text);
+        ajouterButton = findViewById(R.id.ajouter_note);
+        clearButton = findViewById(R.id.clear_note);
+        backButton = findViewById(R.id.back);
+
+        setupListeners();
+
+    }
+
+    private void setupListeners() {
+        backButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
 }

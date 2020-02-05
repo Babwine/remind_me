@@ -6,7 +6,7 @@ import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
 import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
 
-public interface NoteContract {
+public interface NoteDisplayContract {
     interface View {
         void displayNotes();
 

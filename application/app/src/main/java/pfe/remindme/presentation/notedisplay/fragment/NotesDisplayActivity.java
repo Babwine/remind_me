@@ -1,24 +1,17 @@
 package pfe.remindme.presentation.notedisplay.fragment;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -27,21 +20,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import pfe.remindme.R;
-import pfe.remindme.data.Note;
-import pfe.remindme.data.Tag;
 import pfe.remindme.data.di.FakeDependencyInjection;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
-import pfe.remindme.presentation.notecapture.fragment.NotesCaptureActivity;
-import pfe.remindme.presentation.notedisplay.NoteContract;
-import pfe.remindme.presentation.notedisplay.NotePresenter;
+import pfe.remindme.presentation.notedisplay.NoteDisplayContract;
+import pfe.remindme.presentation.notedisplay.NoteDisplayPresenter;
 import pfe.remindme.presentation.notedisplay.adapter.NoteActionInterface;
 import pfe.remindme.presentation.notedisplay.adapter.NoteAdapter;
 import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
 import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
-public class NotesDisplayActivity extends AppCompatActivity implements NoteContract.View, NoteActionInterface {
-    private NoteContract.Presenter notePresenter;
+public class NotesDisplayActivity extends AppCompatActivity implements NoteDisplayContract.View, NoteActionInterface {
+    private NoteDisplayContract.Presenter noteDisplayPresenter;
     private NoteAdapter noteAdapter;
     private RecyclerView recyclerView;
     private SearchView searchView;
@@ -61,14 +51,14 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
         currentNotes = new ArrayList<>();
         noteAdapter = new NoteAdapter(this);
-        notePresenter = new NotePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToViewModelMapper(), new NoteToNoteEntityMapper(), new NoteEntityToNoteMapper());
+        noteDisplayPresenter = new NoteDisplayPresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToViewModelMapper(), new NoteToNoteEntityMapper(), new NoteEntityToNoteMapper());
         setupSearchView();
         setupRecyclerView();
         progressBar = findViewById(R.id.progress_bar);
         addNoteButton = findViewById(R.id.addNoteButton);
 
-        notePresenter.attachView(this);
-        notePresenter.displayAllNotes();
+        noteDisplayPresenter.attachView(this);
+        noteDisplayPresenter.displayAllNotes();
 
         setupListeners();
 
@@ -101,7 +91,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
             @Override
             public boolean onQueryTextChange(final String s) {
                 if (s.length() == 0) {
-                    notePresenter.displayAllNotes();
+                    noteDisplayPresenter.displayAllNotes();
                     progressBar.setVisibility(View.GONE);
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
@@ -119,7 +109,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            notePresenter.displayNotesFromStringLikeTag(s);
+                            noteDisplayPresenter.displayNotesFromStringLikeTag(s);
                         }
                     }, sleep);
                 }
@@ -140,7 +130,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     @Override
     public void onDestroy() {
         super.onDestroy();
-        notePresenter.detachView();
+        noteDisplayPresenter.detachView();
     }
 
 
@@ -156,7 +146,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
 
     @Override
     public void setNotesByIdList(List<Integer> noteIdList) {
-        notePresenter.displayNotesFromIdList(noteIdList);
+        noteDisplayPresenter.displayNotesFromIdList(noteIdList);
     }
 
 
@@ -170,10 +160,10 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                notePresenter.removeNote(noteId);
+                noteDisplayPresenter.removeNote(noteId);
                 dialog.dismiss();
-                if (searchView.getQuery().toString().length() == 0) notePresenter.displayAllNotes();
-                else notePresenter.displayNotesFromStringLikeTag(searchView.getQuery().toString());
+                if (searchView.getQuery().toString().length() == 0) noteDisplayPresenter.displayAllNotes();
+                else noteDisplayPresenter.displayNotesFromStringLikeTag(searchView.getQuery().toString());
             }
         });
 

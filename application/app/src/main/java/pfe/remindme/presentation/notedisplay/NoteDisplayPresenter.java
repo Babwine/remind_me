@@ -1,32 +1,24 @@
 package pfe.remindme.presentation.notedisplay;
 
-import android.provider.ContactsContract;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.ResourceSubscriber;
 import pfe.remindme.data.DataConverter;
 import pfe.remindme.data.Note;
-import pfe.remindme.data.Tag;
-import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
-import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
 import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
 
 
-public class NotePresenter implements NoteContract.Presenter {
-    private NoteContract.View view;
+public class NoteDisplayPresenter implements NoteDisplayContract.Presenter {
+    private NoteDisplayContract.View view;
     private NoteToViewModelMapper noteToViewModelMapper;
     private NoteToNoteEntityMapper noteToNoteEntityMapper;
     private NoteEntityToNoteMapper noteEntityToNoteMapper;
@@ -35,10 +27,10 @@ public class NotePresenter implements NoteContract.Presenter {
 
     private List<Note> currentNotes;
 
-    public NotePresenter(NoteDisplayRepository repo,
-                         NoteToViewModelMapper noteToViewModelMapper,
-                         NoteToNoteEntityMapper noteToNoteEntityMapper,
-                         NoteEntityToNoteMapper noteEntityToNoteMapper) {
+    public NoteDisplayPresenter(NoteDisplayRepository repo,
+                                NoteToViewModelMapper noteToViewModelMapper,
+                                NoteToNoteEntityMapper noteToNoteEntityMapper,
+                                NoteEntityToNoteMapper noteEntityToNoteMapper) {
         this.noteToViewModelMapper = noteToViewModelMapper;
         this.noteDisplayRepository = repo;
         this.compositeDisposable = new CompositeDisposable();
@@ -48,7 +40,7 @@ public class NotePresenter implements NoteContract.Presenter {
 
 
     @Override
-    public void attachView(NoteContract.View view) {
+    public void attachView(NoteDisplayContract.View view) {
         this.view = view;
     }
 

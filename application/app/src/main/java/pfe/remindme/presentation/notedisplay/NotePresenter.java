@@ -66,8 +66,10 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onNext(List<Note> noteList) {
-                        view.setNotes(noteToViewModelMapper.map(noteList));
-                        view.displayNotes();
+                        if (view != null) {
+                            view.setNotes(noteToViewModelMapper.map(noteList));
+                            view.displayNotes();
+                        }
                     }
 
                     @Override
@@ -80,31 +82,6 @@ public class NotePresenter implements NoteContract.Presenter {
                         //Do Nothing
                     }
                 }));
-    }
-
-    @Override
-    public void addNote(String note_content) {
-        final Note n = new Note(note_content);
-        final NoteEntity noteEntity = noteToNoteEntityMapper.map(n);
-
-        compositeDisposable.add(noteDisplayRepository.addNote(noteEntity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Long>() {
-
-                    @Override
-                    public void onSuccess(Long aLong) {
-                        Note addedNote = noteEntityToNoteMapper.map(noteEntity);
-                        addedNote.setId(aLong.intValue());
-                        view.onNoteAdded(addedNote);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                })
-        );
     }
 
     @Override
@@ -127,29 +104,6 @@ public class NotePresenter implements NoteContract.Presenter {
         );
     }
 
-    @Override
-    public void displayNotesFromTag(String tagName) {
-        compositeDisposable.add(noteDisplayRepository.getLinkedNotesIdFromTagAsJson(tagName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-
-                    @Override
-                    public void onSuccess(String s) {
-                        DataConverter dc = new DataConverter();
-                        List<Integer> notes = dc.toNoteIdList(s);
-                        view.setNotesByIdList(notes);
-                        view.displayNotes();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        view.setNotes(new ArrayList<NoteItemViewModel>());
-                        view.displayNotes();
-                    }
-                })
-        );
-    }
 
     @Override
     public void displayNotesFromStringLikeTag(final String str) {
@@ -254,159 +208,6 @@ public class NotePresenter implements NoteContract.Presenter {
         );
     }
 
-    @Override
-    public void getTag(final String tagName, final Note note) {
-        compositeDisposable.add(noteDisplayRepository.getTagByTagName(tagName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Tag>() {
-
-                    @Override
-                    public void onSuccess(Tag tag) {
-                        Tag tagToUpdate;
-                        if (tag == null) {
-                            tagToUpdate = new Tag(tagName);
-                            tagToUpdate.addNote(note.getId());
-                            addTag(tagToUpdate);
-                        } else {
-                            tagToUpdate = tag;
-                            tagToUpdate.addNote(note.getId());
-                            updateTag(tagToUpdate);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e.getMessage().contains("returned empty result set")) {
-                            Tag tagToUpdate;
-                            tagToUpdate = new Tag(tagName);
-                            tagToUpdate.addNote(note.getId());
-                            addTag(tagToUpdate);
-                        } else {
-                            e.printStackTrace();
-                        }
-                    }
-                })
-        );
-    }
-
-
-    @Override
-    public void getTagByTagName(String tagName) {
-        compositeDisposable.add(noteDisplayRepository.getTagByTagName(tagName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Tag>() {
-
-                    @Override
-                    public void onSuccess(Tag t) {
-                        List<Note> notes = new ArrayList<>();
-                        notes.add(new Note(t.getTagName()+ " /// "+t.getLinkedNotes().toString()));
-                        view.setNotes(noteToViewModelMapper.map(notes));
-                        view.displayNotes();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        t.printStackTrace();
-                    }
-
-                })
-        );
-    }
-
-    @Override
-    public void updateTag(Tag tag) {
-        compositeDisposable.add(noteDisplayRepository.updateTag(tag)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableCompletableObserver() {
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                })
-        );
-    }
-
-    @Override
-    public void addTag(Tag tag) {
-        compositeDisposable.add(noteDisplayRepository.addTag(tag)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableCompletableObserver() {
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                })
-        );
-    }
-
-    @Override
-    public void getTagDatabase() {
-        compositeDisposable.add(noteDisplayRepository.getTagDatabase()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new ResourceSubscriber<List<Tag>>() {
-
-                    @Override
-                    public void onNext(List<Tag> tags) {
-                        List<Note> notes = new ArrayList<>();
-                        for (Tag t : tags) {
-                            notes.add(new Note(t.getTagName()+ " /// "+t.getLinkedNotes().toString()));
-                        }
-                        view.setNotes(noteToViewModelMapper.map(notes));
-                        view.displayNotes();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        t.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                })
-        );
-    }
-
-    @Override
-    public void getNoteById(int noteId) {
-        compositeDisposable.add(noteDisplayRepository.getNoteById(noteId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Note>() {
-
-                    @Override
-                    public void onSuccess(Note n) {
-                        List<Note> notes = new ArrayList<>();
-                        notes.add(n);
-                        view.setNotes(noteToViewModelMapper.map(notes));
-                        view.displayNotes();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                })
-        );
-    }
 
 
 }

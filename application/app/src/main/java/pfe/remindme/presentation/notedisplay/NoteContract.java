@@ -14,13 +14,7 @@ public interface NoteContract {
 
         void setNotesByIdList(List<Integer> noteIdList);
 
-        void onNoteAdded(Note note);
-
-        void onNoteDeleted();
-
-        void getTag(Tag tag, Note note);
-
-
+        void onNoteDeleted(final int noteId);
     }
 
 
@@ -31,11 +25,7 @@ public interface NoteContract {
 
         void displayAllNotes();
 
-        void addNote(String note_content);
-
         void removeNote(int noteId);
-
-        void displayNotesFromTag(String tagName);
 
         void displayNotesFromStringLikeTag(String str);
 
@@ -44,17 +34,5 @@ public interface NoteContract {
         void deleteAllNotes();
 
         void deleteAllTags();
-
-        void getTag(String tagName, Note note);
-
-        void getTagByTagName(String tagName);
-
-        void updateTag(Tag tag);
-
-        void addTag(Tag tag);
-
-        void getTagDatabase();
-
-        void getNoteById(int noteId);
     }
 }

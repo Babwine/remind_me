@@ -65,12 +65,10 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         setupSearchView();
         setupRecyclerView();
         progressBar = findViewById(R.id.progress_bar);
+        addNoteButton = findViewById(R.id.addNoteButton);
 
         notePresenter.attachView(this);
-
         notePresenter.displayAllNotes();
-
-        addNoteButton = findViewById(R.id.addNoteButton);
 
         setupListeners();
 
@@ -109,18 +107,19 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
                     progressBar.setVisibility(View.VISIBLE);
                     timer.cancel();
                     timer = new Timer();
-                    int sleep = 350;
+                    int sleep = 100;
+                    /*
                     if (s.length() == 1)
                         sleep = 500;
                     else if (s.length() <= 3)
                         sleep = 300;
                     else if (s.length() <= 5)
                         sleep = 200;
+                    */
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            if (s.length() == 0) notePresenter.displayAllNotes();
-                            else notePresenter.displayNotesFromStringLikeTag(s);
+                            notePresenter.displayNotesFromStringLikeTag(s);
                         }
                     }, sleep);
                 }
@@ -160,23 +159,6 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         notePresenter.displayNotesFromIdList(noteIdList);
     }
 
-    @Override
-    public void onNoteAdded(Note note) {
-        for (String tagName : note.getTags()) {
-            notePresenter.getTag(tagName, note);
-        }
-    }
-
-    @Override
-    public void onNoteDeleted() {
-
-    }
-
-    @Override
-    public void getTag(Tag tag, Note note) {
-
-    }
-
 
     @Override
     public void onNoteDeleted(final int noteId) {
@@ -205,4 +187,5 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
         AlertDialog dialog = builder.create();
         builder.show();
     }
+
 }

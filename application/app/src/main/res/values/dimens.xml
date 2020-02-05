@@ -2,4 +2,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="suppr_image_width">48dp</dimen>
     <dimen name="suppr_image_height">48dp</dimen>
+    <dimen name="mic_button_width">400dp</dimen>
+    <dimen name="mic_button_height">400dp</dimen>
 </resources>

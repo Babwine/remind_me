@@ -324,8 +324,7 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onComplete() {
-                        System.out.println("hi");
-                        //Do nothing
+
                     }
 
                     @Override
@@ -345,7 +344,7 @@ public class NotePresenter implements NoteContract.Presenter {
 
                     @Override
                     public void onComplete() {
-                        System.out.println("hi");
+
                     }
 
                     @Override

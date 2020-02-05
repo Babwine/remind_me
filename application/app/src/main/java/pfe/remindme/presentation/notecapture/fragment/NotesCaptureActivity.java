@@ -1,38 +1,33 @@
 package pfe.remindme.presentation.notecapture.fragment;
 
-import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import pfe.remindme.R;
 import pfe.remindme.data.Note;
-import pfe.remindme.data.Tag;
 import pfe.remindme.data.di.FakeDependencyInjection;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.presentation.notecapture.NoteCaptureContract;
 import pfe.remindme.presentation.notecapture.NoteCapturePresenter;
-import pfe.remindme.presentation.notedisplay.NoteContract;
-import pfe.remindme.presentation.notedisplay.NotePresenter;
 
 public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptureContract.View {
+
+    protected static final int RESULT_SPEECH = 1;
 
     private EditText noteText;
     private Button ajouterButton;
@@ -91,6 +86,19 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
                 noteText.setText("");
             }
         });
+
+        micButton.setOnClickListener(new ImageButton.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                try {
+                    startActivityForResult(intent, RESULT_SPEECH);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -103,5 +111,17 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
     @Override
     public void displayLastAddedNote(Note note) {
         lastAddedNoteText.setText(note.getContent());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_SPEECH:
+                if (resultCode == RESULT_OK && data != null) {
+                    List<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    noteText.setText(text.get(0));
+                }
+        }
     }
 }

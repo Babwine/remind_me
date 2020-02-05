@@ -148,4 +148,16 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     public Completable addTag(Tag tag) {
         return noteDisplayLocalDataSource.addtag(tagToTagEntityMapper.map(tag));
     }
+
+    @Override
+    public Single<Note> getLastAddedNote() {
+        return noteDisplayLocalDataSource.loadLastAddedNote().map(
+                new Function<NoteEntity, Note>() {
+                    @Override
+                    public Note apply(NoteEntity noteEntity) throws Exception {
+                        return noteEntityToNoteMapper.map(noteEntity);
+                    }
+                }
+        );
+    }
 }

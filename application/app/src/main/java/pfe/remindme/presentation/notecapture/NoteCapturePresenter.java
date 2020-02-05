@@ -148,4 +148,24 @@ public class NoteCapturePresenter implements NoteCaptureContract.Presenter {
                 })
         );
     }
+
+    @Override
+    public void getLastAddedNote() {
+        compositeDisposable.add(noteDisplayRepository.getLastAddedNote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Note>() {
+
+                    @Override
+                    public void onSuccess(Note note) {
+                        view.displayLastAddedNote(note);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+                })
+        );
+    }
 }

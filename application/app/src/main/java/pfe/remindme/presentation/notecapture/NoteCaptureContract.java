@@ -11,7 +11,7 @@ public interface NoteCaptureContract {
 
         void onNoteAdded(Note note);
 
-
+        void displayLastAddedNote(Note note);
     }
 
 
@@ -27,6 +27,8 @@ public interface NoteCaptureContract {
         void addTag(Tag tag);
 
         void getTag(String tagName, Note note);
+
+        void getLastAddedNote();
 
     }
 }

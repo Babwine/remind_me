@@ -38,4 +38,6 @@ public interface NoteDisplayRepository {
     Completable deleteAllTags();
 
     Completable addTag(Tag tag);
+
+    Single<Note> getLastAddedNote();
 }

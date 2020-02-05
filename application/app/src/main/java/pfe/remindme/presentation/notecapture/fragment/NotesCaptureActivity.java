@@ -14,6 +14,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -35,7 +37,7 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
     private EditText noteText;
     private Button ajouterButton;
     private Button clearButton;
-    private Button backButton;
+    private FloatingActionButton backButton;
     private ImageButton micButton;
     private TextView lastAddedNoteText;
     private NoteCaptureContract.Presenter noteCapturePresenter;
@@ -55,6 +57,7 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
 
         noteCapturePresenter = new NoteCapturePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToNoteEntityMapper(), new NoteEntityToNoteMapper());
         noteCapturePresenter.attachView(this);
+        noteCapturePresenter.getLastAddedNote();
 
         setupListeners();
 
@@ -95,5 +98,10 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
         for (String tagName : note.getTags()) {
             noteCapturePresenter.getTag(tagName, note);
         }
+    }
+
+    @Override
+    public void displayLastAddedNote(Note note) {
+        lastAddedNoteText.setText(note.getContent());
     }
 }

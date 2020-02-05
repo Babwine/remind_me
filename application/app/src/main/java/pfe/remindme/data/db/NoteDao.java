@@ -34,4 +34,7 @@ public interface NoteDao {
 
     @Query("SELECT * from noteentity WHERE id IN (:noteIdList)")
     Flowable<List<NoteEntity>> loadNotesFromIdList(List<Integer> noteIdList);
+
+    @Query("SELECT * from noteentity WHERE id = (SELECT max(id) FROM noteentity)")
+    Single<NoteEntity> loadLastAddedNote();
 }

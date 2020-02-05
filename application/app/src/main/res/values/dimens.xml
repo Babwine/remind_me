@@ -4,4 +4,5 @@
     <dimen name="suppr_image_height">48dp</dimen>
     <dimen name="mic_button_width">400dp</dimen>
     <dimen name="mic_button_height">400dp</dimen>
+    <dimen name="footer_height">20dp</dimen>
 </resources>

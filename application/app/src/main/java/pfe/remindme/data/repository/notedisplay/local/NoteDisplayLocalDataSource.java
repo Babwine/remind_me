@@ -76,4 +76,8 @@ public class NoteDisplayLocalDataSource {
     public Completable addtag(TagEntity tagEntity) {
         return tagDatabase.tagDao().addTag(tagEntity);
     }
+
+    public Single<NoteEntity> loadLastAddedNote() {
+        return noteDatabase.noteDao().loadLastAddedNote();
+    }
 }

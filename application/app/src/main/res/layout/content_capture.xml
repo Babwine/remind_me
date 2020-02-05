@@ -62,6 +62,7 @@
             android:layout_height="@dimen/mic_button_height"
             android:contentDescription="@string/desc_mic_button"
             android:scaleType="fitXY"
+            android:tint="@color/colorPrimaryDark"
             app:srcCompat="@drawable/mic" />
 
         <LinearLayout

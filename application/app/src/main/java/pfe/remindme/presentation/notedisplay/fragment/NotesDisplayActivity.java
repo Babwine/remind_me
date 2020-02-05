@@ -87,8 +87,7 @@ public class NotesDisplayActivity extends AppCompatActivity implements NoteContr
     }
 
     private void switchActivity(View v) {
-        Intent intent = new Intent(this, NotesCaptureActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     private void setupSearchView() {

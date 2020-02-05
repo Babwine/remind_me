@@ -24,6 +24,7 @@ import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.presentation.notecapture.NoteCaptureContract;
 import pfe.remindme.presentation.notecapture.NoteCapturePresenter;
+import pfe.remindme.presentation.notedisplay.fragment.NotesDisplayActivity;
 
 public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptureContract.View {
 
@@ -32,7 +33,7 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
     private EditText noteText;
     private Button ajouterButton;
     private Button clearButton;
-    private FloatingActionButton backButton;
+    private FloatingActionButton searchButton;
     private ImageButton micButton;
     private TextView lastAddedNoteText;
     private NoteCaptureContract.Presenter noteCapturePresenter;
@@ -46,7 +47,7 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
         noteText = findViewById(R.id.note_text);
         ajouterButton = findViewById(R.id.ajouter_note);
         clearButton = findViewById(R.id.clear_note);
-        backButton = findViewById(R.id.back);
+        searchButton = findViewById(R.id.search);
         micButton = findViewById(R.id.mic_button);
         lastAddedNoteText = findViewById(R.id.last_added_note);
 
@@ -58,11 +59,16 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
 
     }
 
+    private void switchActivity(View v) {
+        Intent intent = new Intent(this, NotesDisplayActivity.class);
+        startActivity(intent);
+    }
+
     private void setupListeners() {
-        backButton.setOnClickListener(new Button.OnClickListener() {
+        searchButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                switchActivity(v);
             }
         });
         ajouterButton.setOnClickListener(new Button.OnClickListener() {

@@ -9,7 +9,7 @@ import pfe.remindme.data.entity.NoteEntity;
 
 public class NoteEntityToNoteMapper {
     public Note map(NoteEntity noteEntity) {
-        return new Note(noteEntity.getId(), noteEntity.getContent());
+        return new Note(noteEntity.getId(), noteEntity.getContent(), noteEntity.getTagList());
     }
 
     public List<Note> map(List<NoteEntity> noteEntityList) {

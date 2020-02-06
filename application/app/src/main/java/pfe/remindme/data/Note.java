@@ -1,10 +1,23 @@
 package pfe.remindme.data;
 
+import android.net.Uri;
+
 import androidx.room.Ignore;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import pfe.remindme.R;
 import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
 
 public class Note {
@@ -12,14 +25,10 @@ public class Note {
     String content;
     List<String> tags;
 
-    public Note(int id, String content) {
+    public Note(int id, String content, List<String> tagList) {
         this.id = id;
         this.content = content;
-        this.tags = new ArrayList<>();
-        String[] tmp = content.split(" ");
-        for (String word : tmp) {
-            tags.add(word);
-        }
+        this.tags = tagList;
     }
 
     @Ignore
@@ -27,9 +36,34 @@ public class Note {
         this.content = content;
         this.tags = new ArrayList<>();
         String[] tmp = content.split(" ");
+
+        //List<String> inhibs = getInhibitedWordsList("C:\\Users\\pierr\\Desktop\\M2INFO_EServ\\Remind_me\\remind_me\\application\\app\\src\\main\\res\\raw\\ignored_words.txt");
+        //TEMPORAIRE
+        List<String> inhibs = Arrays.asList("a alors c' car ce celle celles ces cette ceux d' dans de des donc du elle elles en et il ils j' je l' la le les leur lors lui ma mais me mes mon ni nous on or ou parce pour qu' que quel quelle qui sa se ses son sur ta te tes ton tu un une vous y à".split(" "));
+
         for (String word : tmp) {
-            tags.add(word);
+            if (!inhibs.contains(word.toLowerCase()))
+                tags.add(word);
         }
+    }
+
+    public static List<String> getInhibitedWordsList(String path) {
+        List<String> res = new ArrayList<>();
+        File file = new File(path);
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String[] tmp = br.readLine().split(" ");
+            for (int i=0; i<tmp.length; i++) {
+                tmp[i] = tmp[i].toLowerCase();
+            }
+            res = Arrays.asList(tmp);
+
+        } catch (IOException e) {
+            System.err.println(path);
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
 

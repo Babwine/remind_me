@@ -37,9 +37,11 @@ public class Note {
         this.tags = new ArrayList<>();
         String[] tmp = content.split(" ");
 
-        //List<String> inhibs = getInhibitedWordsList("C:\\Users\\pierr\\Desktop\\M2INFO_EServ\\Remind_me\\remind_me\\application\\app\\src\\main\\res\\raw\\ignored_words.txt");
+        //List<String> inhibs = getInhibitedWordsList(".");
         //TEMPORAIRE
         List<String> inhibs = Arrays.asList("a alors c' car ce celle celles ces cette ceux d' dans de des donc du elle elles en et il ils j' je l' la le les leur lors lui ma mais me mes mon ni nous on or ou parce pour qu' que quel quelle qui sa se ses son sur ta te tes ton tu un une vous y à".split(" "));
+
+
 
         for (String word : tmp) {
             if (!inhibs.contains(word.toLowerCase()))
@@ -50,6 +52,8 @@ public class Note {
     public static List<String> getInhibitedWordsList(String path) {
         List<String> res = new ArrayList<>();
         File file = new File(path);
+        File[] tmpfile = file.listFiles();
+        System.out.println("hi");
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String[] tmp = br.readLine().split(" ");

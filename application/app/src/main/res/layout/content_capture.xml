@@ -65,6 +65,12 @@
             android:tint="@color/colorPrimaryDark"
             app:srcCompat="@drawable/mic" />
 
+        <Switch
+            android:id="@+id/lock_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verrouillage en ajout automatique" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

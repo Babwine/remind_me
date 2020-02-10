@@ -11,6 +11,8 @@ public interface NoteCaptureContract {
 
         void onNoteAdded(Note note);
 
+        void onLockedCaptureToggled(boolean isChecked);
+
         void displayLastAddedNote(Note note);
     }
 

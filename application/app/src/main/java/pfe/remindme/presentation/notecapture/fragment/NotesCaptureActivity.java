@@ -2,12 +2,15 @@ package pfe.remindme.presentation.notecapture.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +38,11 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
     private Button clearButton;
     private FloatingActionButton searchButton;
     private ImageButton micButton;
+    private Switch lockButton;
     private TextView lastAddedNoteText;
     private NoteCaptureContract.Presenter noteCapturePresenter;
+
+    private boolean lockedCapture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,11 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
         searchButton = findViewById(R.id.search);
         micButton = findViewById(R.id.mic_button);
         lastAddedNoteText = findViewById(R.id.last_added_note);
+        lockButton = findViewById(R.id.lock_button);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("pfe.remindme", MODE_PRIVATE);
+        lockButton.setChecked(sharedPreferences.getBoolean("isLockedCapture", true));
+        lockedCapture = sharedPreferences.getBoolean("isLockedCapture", true);
 
         noteCapturePresenter = new NoteCapturePresenter(FakeDependencyInjection.getNoteDisplayRepository(), new NoteToNoteEntityMapper(), new NoteEntityToNoteMapper());
         noteCapturePresenter.attachView(this);
@@ -105,13 +116,31 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
                 }
             }
         });
+
+        lockButton.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                onLockedCaptureToggled(isChecked);
+            }
+        });
     }
+
+
 
     @Override
     public void onNoteAdded(Note note) {
         for (String tagName : note.getTags()) {
             noteCapturePresenter.getTag(tagName, note);
         }
+    }
+
+    @Override
+    public void onLockedCaptureToggled(boolean isChecked) {
+        lockedCapture = isChecked;
+        SharedPreferences.Editor editor = getSharedPreferences("pfe.remindme", MODE_PRIVATE).edit();
+        editor.putBoolean("isLockedCapture",isChecked);
+        editor.commit();
     }
 
     @Override
@@ -126,8 +155,18 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
             case RESULT_SPEECH:
                 if (resultCode == RESULT_OK && data != null) {
                     List<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    noteText.setText(text.get(0));
+                    if (lockedCapture) {
+                        noteCapturePresenter.addNote(text.get(0));
+                        lastAddedNoteText.setText(text.get(0));
+                    } else {
+                        noteText.setText(text.get(0));
+                    }
                 }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

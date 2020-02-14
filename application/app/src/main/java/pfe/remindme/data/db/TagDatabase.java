@@ -7,6 +7,9 @@ import androidx.room.TypeConverters;
 import pfe.remindme.data.DataConverter;
 import pfe.remindme.data.entity.TagEntity;
 
+/**
+ * La base de données en charge de la gestion des tags
+ */
 @Database(entities = { TagEntity.class }, version = 1, exportSchema = false)
 @TypeConverters({DataConverter.class})
 public abstract class TagDatabase extends RoomDatabase {

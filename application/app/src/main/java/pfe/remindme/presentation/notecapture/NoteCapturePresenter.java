@@ -1,6 +1,5 @@
 package pfe.remindme.presentation.notecapture;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -8,18 +7,16 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subscribers.ResourceSubscriber;
-import pfe.remindme.data.DataConverter;
 import pfe.remindme.data.Note;
 import pfe.remindme.data.Tag;
 import pfe.remindme.data.entity.NoteEntity;
 import pfe.remindme.data.repository.notedisplay.NoteDisplayRepository;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
-import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
-import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
-
+/**
+ * La classe du présenteur lié à l'activité de capture des notes
+ */
 public class NoteCapturePresenter implements NoteCaptureContract.Presenter {
     private NoteCaptureContract.View view;
     private NoteToNoteEntityMapper noteToNoteEntityMapper;
@@ -27,8 +24,12 @@ public class NoteCapturePresenter implements NoteCaptureContract.Presenter {
     private NoteDisplayRepository noteDisplayRepository;
     private CompositeDisposable compositeDisposable;
 
-    private List<Note> currentNotes;
-
+    /**
+     * Constructeur
+     * @param repo le repository de l'application
+     * @param noteToNoteEntityMapper le mapper qui transforme une Note en NoteEntity
+     * @param noteEntityToNoteMapper le mapper qui transforme une NoteEntity en Note
+     */
     public NoteCapturePresenter(NoteDisplayRepository repo,
                          NoteToNoteEntityMapper noteToNoteEntityMapper,
                          NoteEntityToNoteMapper noteEntityToNoteMapper) {

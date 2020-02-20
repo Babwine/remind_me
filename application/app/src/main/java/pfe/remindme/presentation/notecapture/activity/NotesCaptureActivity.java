@@ -28,6 +28,9 @@ import pfe.remindme.presentation.notecapture.NoteCaptureContract;
 import pfe.remindme.presentation.notecapture.NoteCapturePresenter;
 import pfe.remindme.presentation.notedisplay.activity.NotesDisplayActivity;
 
+/**
+ * La classe de l'activité de capture des notes
+ */
 public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptureContract.View {
 
     protected static final int RESULT_SPEECH = 1;
@@ -167,5 +170,6 @@ public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptu
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        noteCapturePresenter.detachView();
     }
 }

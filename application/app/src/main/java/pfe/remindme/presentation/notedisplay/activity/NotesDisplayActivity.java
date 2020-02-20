@@ -30,6 +30,9 @@ import pfe.remindme.presentation.notedisplay.adapter.NoteAdapter;
 import pfe.remindme.presentation.notedisplay.adapter.NoteItemViewModel;
 import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
+/**
+ * La classe de l'activité d'affichage des notes
+ */
 public class NotesDisplayActivity extends AppCompatActivity implements NoteDisplayContract.View, NoteActionInterface {
     private NoteDisplayContract.Presenter noteDisplayPresenter;
     private NoteAdapter noteAdapter;

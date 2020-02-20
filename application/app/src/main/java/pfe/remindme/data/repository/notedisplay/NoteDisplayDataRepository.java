@@ -17,6 +17,9 @@ import pfe.remindme.data.repository.notedisplay.mapper.TagEntityToTagMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.TagToTagEntityMapper;
 import pfe.remindme.data.repository.notedisplay.remote.NoteDisplayRemoteDataSource;
 
+/**
+ * La classe qui implémente l'interface <code>NoteDisplayRepository</code>
+ */
 public class NoteDisplayDataRepository implements NoteDisplayRepository {
     private NoteDisplayLocalDataSource noteDisplayLocalDataSource;
     private NoteDisplayRemoteDataSource noteDisplayRemoteDataSource;
@@ -25,6 +28,15 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
     private NoteEntityToNoteMapper noteEntityToNoteMapper;
     private TagEntityToTagMapper tagEntityToTagMapper;
 
+    /**
+     * Constructeur du repository
+     * @param noteDisplayLocalDataSource la source de données locale de l'application
+     * @param noteDisplayRemoteDataSource la source de données distante de l'application (inutilisée)
+     * @param noteToNoteEntityMapper le mapper qui transforme une Note en NoteEntity
+     * @param tagToTagEntityMapper le mapper qui transforme un Tag en TagEntity
+     * @param noteEntityToNoteMapper le mapper qui transforme une NoteEntity en Note
+     * @param tagEntityToTagMapper le mapper qui transforme un TagEntity en Tag
+     */
     public NoteDisplayDataRepository(
         NoteDisplayLocalDataSource noteDisplayLocalDataSource,
         NoteDisplayRemoteDataSource noteDisplayRemoteDataSource,
@@ -41,6 +53,7 @@ public class NoteDisplayDataRepository implements NoteDisplayRepository {
         this.noteEntityToNoteMapper = noteEntityToNoteMapper;
         this.tagEntityToTagMapper = tagEntityToTagMapper;
     }
+
 
     @Override
     public Single<Note> getNoteById(int noteId) {

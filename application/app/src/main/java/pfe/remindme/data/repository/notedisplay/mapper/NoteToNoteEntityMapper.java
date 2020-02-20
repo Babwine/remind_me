@@ -1,14 +1,17 @@
 package pfe.remindme.data.repository.notedisplay.mapper;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 import pfe.remindme.data.Note;
-import pfe.remindme.data.Tag;
 import pfe.remindme.data.entity.NoteEntity;
 
+/**
+ * La classe pour le mapper qui transforme une Note en NoteEntity
+ */
 public class NoteToNoteEntityMapper {
+    /**
+     * Transforme la Note <code>note</code> en NoteEntity
+     * @param note la Note donnée
+     * @return la NoteEntity obtenue à partir de la Note donnée
+     */
     public NoteEntity map(Note note) {
         NoteEntity noteEntity = new NoteEntity();
         if (note.getId() != 0) {

@@ -1,4 +1,4 @@
-package pfe.remindme.presentation.notedisplay.fragment;
+package pfe.remindme.presentation.notedisplay.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

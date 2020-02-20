@@ -14,9 +14,14 @@ import java.util.List;
 
 import pfe.remindme.R;
 
+/**
+ * Une classe servant d'adapteur pour les NoteItemViewModels
+ */
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
-
+    /**
+     * Une classe pour le ViewHolder associé
+     */
     public class NoteViewHolder extends RecyclerView.ViewHolder {
         private TextView contentTextView;
         private TextView tagsTextView;
@@ -25,6 +30,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         private NoteActionInterface noteActionInterface;
         private ImageButton deleteButton;
 
+        /**
+         * Constructeur
+         * @param v la vue
+         * @param noteActionInterface la NoteActionInterface
+         */
         public NoteViewHolder(@NonNull View v, NoteActionInterface noteActionInterface) {
             super(v);
             this.v = v;
@@ -36,6 +46,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             setupListeners();
         }
 
+        /**
+         * Une méthode qui met en place les listeners pour les actions sur chaque note
+         */
         private void setupListeners() {
             deleteButton.setOnClickListener(new ImageButton.OnClickListener() {
 
@@ -46,6 +59,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             });
         }
 
+        /**
+         * Lie le ViewModel <code>noteItemViewModel</code> à la vue de la Note
+         * @param noteItemViewModel le ViewModel
+         */
         void bind(NoteItemViewModel noteItemViewModel) {
             this.noteItemViewModel = noteItemViewModel;
             contentTextView.setText(noteItemViewModel.getNoteContent());
@@ -57,11 +74,19 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private List<NoteItemViewModel> noteItemViewModelList;
     private NoteActionInterface noteActionInterface;
 
+    /**
+     * Constructeur
+     * @param noteActionInterface la NoteActionInterface
+     */
     public NoteAdapter(NoteActionInterface noteActionInterface) {
         this.noteItemViewModelList = new ArrayList<>();
         this.noteActionInterface = noteActionInterface;
     }
 
+    /**
+     * Lie les ViewModel de la liste <code>noteItemViewModelList</code> à la recyclerView
+     * @param noteItemViewModelList la liste de ViewModel
+     */
     public void bindViewModels(List<NoteItemViewModel> noteItemViewModelList) {
         this.noteItemViewModelList.clear();
         this.noteItemViewModelList.addAll(noteItemViewModelList);

@@ -27,8 +27,8 @@ public class Tag {
     }
 
     /**
-     * Ajoute la note <code>n</code> à la liste des notes associées à ce tag
-     * @param n
+     * Ajoute la note d'ID <code>n</code> à la liste des notes associées à ce tag
+     * @param n l'ID de la note à ajouter
      */
     public void addNote(int n) {
         linkedNotes.add(n);

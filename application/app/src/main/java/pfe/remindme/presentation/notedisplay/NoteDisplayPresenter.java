@@ -16,7 +16,9 @@ import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.presentation.notedisplay.mapper.NoteToViewModelMapper;
 
 
-
+/**
+ * La classe du présenteur lié à l'activité d'affichage des notes
+ */
 public class NoteDisplayPresenter implements NoteDisplayContract.Presenter {
     private NoteDisplayContract.View view;
     private NoteToViewModelMapper noteToViewModelMapper;
@@ -27,6 +29,13 @@ public class NoteDisplayPresenter implements NoteDisplayContract.Presenter {
 
     private List<Note> currentNotes;
 
+    /**
+     * Constructeur
+     * @param repo le repository de l'application
+     * @param noteToViewModelMapper le mapper qui transforme une Note en NoteItemViewModel
+     * @param noteToNoteEntityMapper le mapper qui transforme une Note en NoteEntity
+     * @param noteEntityToNoteMapper le mapper qui transforme une NoteEntity en Note
+     */
     public NoteDisplayPresenter(NoteDisplayRepository repo,
                                 NoteToViewModelMapper noteToViewModelMapper,
                                 NoteToNoteEntityMapper noteToNoteEntityMapper,

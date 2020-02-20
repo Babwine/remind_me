@@ -1,4 +1,4 @@
-package pfe.remindme.presentation.notecapture.fragment;
+package pfe.remindme.presentation.notecapture.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pfe.remindme.R;
@@ -27,7 +26,7 @@ import pfe.remindme.data.repository.notedisplay.mapper.NoteEntityToNoteMapper;
 import pfe.remindme.data.repository.notedisplay.mapper.NoteToNoteEntityMapper;
 import pfe.remindme.presentation.notecapture.NoteCaptureContract;
 import pfe.remindme.presentation.notecapture.NoteCapturePresenter;
-import pfe.remindme.presentation.notedisplay.fragment.NotesDisplayActivity;
+import pfe.remindme.presentation.notedisplay.activity.NotesDisplayActivity;
 
 public class NotesCaptureActivity extends AppCompatActivity implements NoteCaptureContract.View {
 
